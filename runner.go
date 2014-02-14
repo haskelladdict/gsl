@@ -15,6 +15,7 @@ import (
 func main() {
 
   data := stats.FloatSlice{1.0, 2.0, 3.0, 4.0, 5.213}
-  fmt.Println("mean is ", data.Mean(1), data.Variance(1))
+  fmt.Println("mean is ", data.Mean(1), data.Variance(1),
+    data.Variance_with_fixed_mean(1,3.0))
 }
 
