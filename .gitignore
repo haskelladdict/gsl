@@ -3,6 +3,9 @@
 *.a
 *.so
 
+runner
+*.swp
+
 # Folders
 _obj
 _test
