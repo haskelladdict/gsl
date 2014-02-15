@@ -1,10 +1,14 @@
 
-
+PACKAGES = ./src/stats ./src/util
 
 
 all:
 	go build runner.go
 
 
-test: 
-	go test ./src/stats
+test: $(PACKAGES)
+	go test ./$^
+
+
+format:
+	gofmt -w=true -tabs=false -tabwidth=2 $(PACKAGES)
