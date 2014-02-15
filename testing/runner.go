@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-  data := stats.FloatSlice{1.0, 2.0, 3.0, 4.0, 5.213}
+  data := stats.FloatSlice{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}
   fmt.Println("mean is ", data.Mean(1), data.Variance(1),
-    data.Variance_with_fixed_mean(1, 3.0))
+    data.Variance_with_fixed_mean(1, 3.0), data.Absdev(1))
 }

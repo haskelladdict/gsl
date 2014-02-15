@@ -68,4 +68,14 @@ func Test_stats(t *testing.T) {
   if !util.FloatEqual(sigma_fixed, math.Sqrt(sigma2_fixed)) {
     t.Error("Failed to compute standard deviation with fixed mean.")
   }
+
+  absdev := data.Absdev(1)
+  if !util.FloatEqual(absdev, 2.5) {
+    t.Error("Failed to compute absolute deviation.")
+  }
+
+  absdev_m := data.Absdev_m(1, mean)
+  if !util.FloatEqual(absdev_m, absdev) {
+    t.Error("Failed to compute absolute deviation with mean.")
+  }
 }
