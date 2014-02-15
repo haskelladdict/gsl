@@ -123,3 +123,21 @@ func (d FloatSlice) Skew_m_sd(stride int, mean float64, sd float64) float64 {
     C.size_t(len(d)), C.double(mean), C.double(sd))
   return float64(skew_m_sd)
 }
+
+
+// Kurtosis computes the kurtosis of data with stride stride.
+func (d FloatSlice) Kurtosis(stride int) float64 {
+  kurt := C.gsl_stats_kurtosis((*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)))
+  return float64(kurt)
+}
+
+
+// Kurtosis computes the kurtosis of data with stride stride.
+func (d FloatSlice) Kurtosis_m_sd(stride int, mean float64, sd float64) float64 {
+  kurt_m_sd := C.gsl_stats_kurtosis_m_sd((*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)), C.double(mean), C.double(sd))
+  return float64(kurt_m_sd)
+}
+
+

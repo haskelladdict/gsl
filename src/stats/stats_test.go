@@ -116,4 +116,14 @@ func Test_stats_2(t *testing.T) {
   if !util.FloatEqual(skew_m_sd, skew) {
     t.Error("Test 2: Failed to compute skew with mean and stddev.")
   }
+
+  kurt := norm_data.Kurtosis(1)
+  if !util.FloatEqual(kurt, -0.98591331325429809596) {
+    t.Error("Test 2: Failed to compute kurtosis.")
+  }
+
+  kurt_m_sd := norm_data.Kurtosis_m_sd(1, mean, sd)
+  if !util.FloatEqual(kurt_m_sd, kurt) {
+    t.Error("Test 2: Failed to compute kurtosis with mean and stddev.")
+  }
 }
