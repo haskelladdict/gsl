@@ -4,9 +4,8 @@
 //
 // stat wraps gsl statistics routines
 //
-// XXX: None of the statistics function check for the lenght of the
-//      data string and will trigger a runtime exception if called
-//      with an empty slice.
+// NOTE: Unless explicityly noted test target results have been computed
+//       via R
 package stats
 
 import (
@@ -80,8 +79,6 @@ func Test_stats_1(t *testing.T) {
   }
 }
 
-
-
 func Test_stats_2(t *testing.T) {
 
   norm_data := FloatSlice{1.33830225764885e-04, 3.52595682367445e-04,
@@ -126,4 +123,17 @@ func Test_stats_2(t *testing.T) {
   if !util.FloatEqual(kurt_m_sd, kurt) {
     t.Error("Test 2: Failed to compute kurtosis with mean and stddev.")
   }
+
+  // XXX: The target values for l1cor have been computed via GSL and
+  // were not tested by a third party tool
+  l1corr := norm_data.Lag1_autocorrelation(1)
+  if !util.FloatEqual(l1corr, 0.9500395402358169) {
+    t.Error("Test 2: Failed to compute the lag1 autocorrelation.", l1corr)
+  }
+
+  l1corr_m_sd := norm_data.Lag1_autocorrelation_m_sd(1, mean)
+  if !util.FloatEqual(l1corr_m_sd, l1corr) {
+    t.Error("Test 2: Failed to compute lag1 autocorrelation with mean and stddev.", l1corr_m_sd)
+  }
+
 }

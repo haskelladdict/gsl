@@ -89,8 +89,7 @@ func (d FloatSlice) Sd_with_fixed_mean(stride int, mean float64) float64 {
   return float64(var_fixed)
 }
 
-
-// Absdev computes the absolute deviation from the mean of data with 
+// Absdev computes the absolute deviation from the mean of data with
 // stride stride
 func (d FloatSlice) Absdev(stride int) float64 {
   absdev := C.gsl_stats_absdev((*C.double)(&d[0]), C.size_t(stride),
@@ -98,8 +97,7 @@ func (d FloatSlice) Absdev(stride int) float64 {
   return float64(absdev)
 }
 
-
-// Absdev_m computes the absolute deviation from the mean of data with 
+// Absdev_m computes the absolute deviation from the mean of data with
 // stride stride and given mean
 func (d FloatSlice) Absdev_m(stride int, mean float64) float64 {
   absdev_m := C.gsl_stats_absdev_m((*C.double)(&d[0]), C.size_t(stride),
@@ -107,14 +105,12 @@ func (d FloatSlice) Absdev_m(stride int, mean float64) float64 {
   return float64(absdev_m)
 }
 
-
 // Skew computes the skewness of data with stride stride.
 func (d FloatSlice) Skew(stride int) float64 {
   skew := C.gsl_stats_skew((*C.double)(&d[0]), C.size_t(stride),
     C.size_t(len(d)))
   return float64(skew)
 }
-
 
 // Skew_m_sd computes the skewness of the dataset data using stride stride
 // and the given values of the mean mean and standard deviation sd.
@@ -124,7 +120,6 @@ func (d FloatSlice) Skew_m_sd(stride int, mean float64, sd float64) float64 {
   return float64(skew_m_sd)
 }
 
-
 // Kurtosis computes the kurtosis of data with stride stride.
 func (d FloatSlice) Kurtosis(stride int) float64 {
   kurt := C.gsl_stats_kurtosis((*C.double)(&d[0]), C.size_t(stride),
@@ -132,12 +127,26 @@ func (d FloatSlice) Kurtosis(stride int) float64 {
   return float64(kurt)
 }
 
-
-// Kurtosis computes the kurtosis of data with stride stride.
+// Kurtosis computes the kurtosis of data with stride stride and the given
+// values of mean and sd.
 func (d FloatSlice) Kurtosis_m_sd(stride int, mean float64, sd float64) float64 {
   kurt_m_sd := C.gsl_stats_kurtosis_m_sd((*C.double)(&d[0]), C.size_t(stride),
     C.size_t(len(d)), C.double(mean), C.double(sd))
   return float64(kurt_m_sd)
 }
 
+// Lag1_autocorrelation computes the lag-1 autocorrelation of the dataset
+// data with stride stride.
+func (d FloatSlice) Lag1_autocorrelation(stride int) float64 {
+  corr := C.gsl_stats_lag1_autocorrelation((*C.double)(&d[0]),
+    C.size_t(stride), C.size_t(len(d)))
+  return float64(corr)
+}
 
+// Lag1_autocorrelation_m computes the lag-1 autocorrelation of the dataset
+// data with stride stride and the given values of mean and sd.
+func (d FloatSlice) Lag1_autocorrelation_m_sd(stride int, mean float64) float64 {
+  corr_m_sd := C.gsl_stats_lag1_autocorrelation_m((*C.double)(&d[0]),
+    C.size_t(stride), C.size_t(len(d)), C.double(mean))
+  return float64(corr_m_sd)
+}
