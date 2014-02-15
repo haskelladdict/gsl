@@ -1,4 +1,4 @@
 go-gsl
 ======
 
-go-gsl are go bindings for the GNU scientific library
+go-gsl is a go binding for the GNU scientific library.
