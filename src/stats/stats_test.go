@@ -14,6 +14,7 @@ import (
   "testing"
 )
 
+// test set 1
 func Test_stats_1(t *testing.T) {
 
   data := FloatSlice{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}
@@ -79,6 +80,7 @@ func Test_stats_1(t *testing.T) {
   }
 }
 
+// test set 2
 func Test_stats_2(t *testing.T) {
 
   norm_data := FloatSlice{1.33830225764885e-04, 3.52595682367445e-04,
@@ -135,5 +137,37 @@ func Test_stats_2(t *testing.T) {
   if !util.FloatEqual(l1corr_m_sd, l1corr) {
     t.Error("Test 2: Failed to compute lag1 autocorrelation with mean and stddev.", l1corr_m_sd)
   }
+}
 
+// test set 3
+func Test_stats_3(t *testing.T) {
+
+  data1 := FloatSlice{16.0, 99.0, 26.0, 85.0, 76.0, 50.0, 46.0, 11.0, 79.0,
+    97.0, 24.0, 20.0, 100.0, 68.0, 22.0, 15.0, 5.0, 89.0, 45.0, 2.0}
+
+  data2 := FloatSlice{39.0, 10.0, 34.0, 29.0, 82.0, 54.0, 30.0, 65.0, 56.0,
+    55.0, 20.0, 52.0, 96.0, 95.0, 23.0, 51.0, 27.0, 59.0, 31.0, 99.0}
+
+  mean1 := data1.Mean(1)
+  mean2 := data2.Mean(1)
+
+  cov := data1.Covariance(1, data2, 1)
+  if !util.FloatEqual(cov, 130.93421052631578) {
+    t.Error("Test 3: Failed to compute covariance.")
+  }
+
+  cov_m := data1.Covariance_m(1, data2, 1, mean1, mean2)
+  if !util.FloatEqual(cov_m, cov) {
+    t.Error("Test 3: Failed to compute covariance with mean1 and mean2.")
+  }
+
+  corr := data1.Correlation(1, data2, 1)
+  if !util.FloatEqual(corr, 0.14269187753186113) {
+    t.Error("Test 3: Failed to compute Pearson correlation.")
+  }
+
+  spear := data1.Spearman(1, data2, 1)
+  if !util.FloatEqual(spear, 0.091729323308270688) {
+    t.Error("Test 3: Failed to compute Pearson correlation.")
+  }
 }
