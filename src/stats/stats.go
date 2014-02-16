@@ -195,3 +195,140 @@ func (d FloatSlice) Spearman(stride1 int, data1 FloatSlice, stride2 int) float64
     (*C.double)(&work[0]))
   return float64(spear)
 }
+
+// Wmean computes the weighted mean of the dataset data with stride
+// stride and length n, using the set of weights w with stride wstride and
+// length n.
+func (d FloatSlice) Wmean(stride int, weights FloatSlice, wstride int) float64 {
+  wmean := C.gsl_stats_wmean((*C.double)(&weights[0]), C.size_t(wstride),
+    (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)))
+  return float64(wmean)
+}
+
+// Wvariance computes the estimated variance of the dataset data with stride
+// stride and length n, using the set of weights w with stride wstride and
+// length n.
+func (d FloatSlice) Wvariance(stride int, weights FloatSlice, wstride int) float64 {
+  wvar := C.gsl_stats_wvariance((*C.double)(&weights[0]), C.size_t(wstride),
+    (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)))
+  return float64(wvar)
+}
+
+// Wvariance_m computes the estimated variance of the dataset data with
+// stride stride and length n, using the set of weights w with stride
+// wstride and length n and weighted mean mean.
+func (d FloatSlice) Wvariance_m(stride int, weights FloatSlice, wstride int,
+  mean float64) float64 {
+  wvar_m := C.gsl_stats_wvariance_m((*C.double)(&weights[0]),
+    C.size_t(wstride), (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)),
+    C.double(mean))
+  return float64(wvar_m)
+}
+
+// Wsd computes the standard deviation as the square root of the variance.
+func (d FloatSlice) Wsd(stride int, weights FloatSlice, wstride int) float64 {
+  wsd := C.gsl_stats_wsd((*C.double)(&weights[0]), C.size_t(wstride),
+    (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)))
+  return float64(wsd)
+}
+
+// Wsd computes the standard deviation as the square root of the variance
+// with given weighted mean.
+func (d FloatSlice) Wsd_m(stride int, weights FloatSlice, wstride int,
+  mean float64) float64 {
+  wsd_m := C.gsl_stats_wsd_m((*C.double)(&weights[0]), C.size_t(wstride),
+    (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)), C.double(mean))
+  return float64(wsd_m)
+}
+
+// Wvariance_with fixed mean computes an unbiased estimate of the variance
+// of the weighted dataset d when the population mean mean of the underlying
+// distribution is known a priori. In this case the estimator for the
+// variance replaces the sample mean μ_hat by the known population mean μ.
+func (d FloatSlice) Wvariance_with_fixed_mean(stride int, weights FloatSlice,
+  wstride int, mean float64) float64 {
+  wvar_fixed_m := C.gsl_stats_wvariance_with_fixed_mean(
+    (*C.double)(&weights[0]), C.size_t(wstride), (*C.double)(&d[0]),
+    C.size_t(stride), C.size_t(len(d)), C.double(mean))
+  return float64(wvar_fixed_m)
+}
+
+// Wsd_with_fixed_mean computes the standard deviation of data d with fixed
+// mean and is defined as the square root of Wvariance_with_fixed_mean.
+func (d FloatSlice) Wsd_with_fixed_mean(stride int, weights FloatSlice,
+  wstride int, mean float64) float64 {
+  wsd_fixed_m := C.gsl_stats_wsd_with_fixed_mean((*C.double)(&weights[0]),
+    C.size_t(wstride), (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)),
+    C.double(mean))
+  return float64(wsd_fixed_m)
+}
+
+// Wtss computes the weighted total sum of squares (TSS) of data about the
+// weighted mean.
+func (d FloatSlice) Wtss(stride int, weights FloatSlice, wstride int) float64 {
+  wtss := C.gsl_stats_wtss((*C.double)(&weights[0]), C.size_t(wstride),
+    (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)))
+  return float64(wtss)
+}
+
+// Wtss_m computes the weighted total sum of squares (TSS) of data about the
+// weighted mean supplied by the caller.
+func (d FloatSlice) Wtss_m(stride int, weights FloatSlice, wstride int,
+  mean float64) float64 {
+  wtss_m := C.gsl_stats_wtss_m((*C.double)(&weights[0]), C.size_t(wstride),
+    (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)), C.double(mean))
+  return float64(wtss_m)
+}
+
+// Wabsdev computes the weighted absolute deviation from the weighted mean
+// of data with stride stride.
+func (d FloatSlice) Wabsdev(stride int, weights FloatSlice, wstride int) float64 {
+  wabsdev := C.gsl_stats_wabsdev((*C.double)(&weights[0]), C.size_t(wstride),
+    (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)))
+  return float64(wabsdev)
+}
+
+// Wabsdev_m computes the weighted absolute deviation from the weighted mean
+// of data with stride stride and user supplied mean.
+func (d FloatSlice) Wabsdev_m(stride int, weights FloatSlice, wstride int,
+  mean float64) float64 {
+  wabsdev_m := C.gsl_stats_wabsdev_m((*C.double)(&weights[0]),
+    C.size_t(wstride), (*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)), C.double(mean))
+  return float64(wabsdev_m)
+}
+
+// Wskew computes the weighted skewness of the dataset d with stride stride.
+func (d FloatSlice) Wskew(stride int, weights FloatSlice, wstride int) float64 {
+  wskew := C.gsl_stats_wskew((*C.double)(&weights[0]), C.size_t(wstride),
+    (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)))
+  return float64(wskew)
+}
+
+// Wskew_m_sd computes the weighted skewness of the dataset d with stride
+// stride with user supplied mean and standard deviation sd.
+func (d FloatSlice) Wskew_m_sd(stride int, weights FloatSlice, wstride int,
+  mean float64, sd float64) float64 {
+  wskew_m_sd := C.gsl_stats_wskew_m_sd((*C.double)(&weights[0]),
+    C.size_t(wstride), (*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)), C.double(mean), C.double(sd))
+  return float64(wskew_m_sd)
+}
+
+// Wkurtosis computes the weighted kurtosis of the dataset d with stride
+// stride.
+func (d FloatSlice) Wkurtosis(stride int, weights FloatSlice, wstride int) float64 {
+  wkurtosis := C.gsl_stats_wkurtosis((*C.double)(&weights[0]),
+    C.size_t(wstride), (*C.double)(&d[0]), C.size_t(stride), C.size_t(len(d)))
+  return float64(wkurtosis)
+}
+
+// Wkurtosis_m_sd computes the weighted kurtosis of the dataset d with stride
+// stride with user supplied mean and standard deviation sd.
+func (d FloatSlice) Wkurtosis_m_sd(stride int, weights FloatSlice,
+  wstride int, mean float64, sd float64) float64 {
+  wkurtosis_m_sd := C.gsl_stats_wkurtosis_m_sd((*C.double)(&weights[0]),
+    C.size_t(wstride), (*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)), C.double(mean), C.double(sd))
+  return float64(wkurtosis_m_sd)
+}

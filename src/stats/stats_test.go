@@ -171,3 +171,90 @@ func Test_stats_3(t *testing.T) {
     t.Error("Test 3: Failed to compute Pearson correlation.")
   }
 }
+
+// test set 4
+func Test_stats_4(t *testing.T) {
+
+  data := FloatSlice{16.0, 99.0, 26.0, 85.0, 76.0, 50.0, 46.0, 11.0, 79.0,
+    97.0, 24.0, 20.0, 100.0, 68.0, 22.0, 15.0, 5.0, 89.0, 45.0, 2.0}
+
+  weights := FloatSlice{0.1, 0.2, 0.3, 0.4, 0.1, 0.2, 0.2, 0.1, 0.8,
+    0.8, 0.1, 0.2, 0.1, 0.1, 0.2, 0.3, 0.3, 0.3, 0.2, 0.1}
+
+  wmean := data.Wmean(1, weights, 1)
+  if !util.FloatEqual(wmean, 59.098039215686278) {
+    t.Error("Test 4: Failed to compute weighted mean.")
+  }
+
+  // XXX: All values below in this test set were computed via GSL
+  // and not confirmened to be correct by a third party application
+  wvar := data.Wvariance(1, weights, 1)
+  if !util.FloatEqual(wvar, 1248.9347280334725) {
+    t.Error("Test 4: Failed to compute weighted variance.")
+  }
+
+  wvar_m := data.Wvariance_m(1, weights, 1, wmean)
+  if !util.FloatEqual(wvar_m, wvar) {
+    t.Error("Test 4: Failed to compute weighted variance with mean.")
+  }
+
+  wsd := data.Wsd(1, weights, 1)
+  if !util.FloatEqual(wsd, 35.34027062762073) {
+    t.Error("Test 4: Failed to compute weighted stddev.")
+  }
+
+  wsd_m := data.Wsd_m(1, weights, 1, wmean)
+  if !util.FloatEqual(wsd_m, wsd) {
+    t.Error("Test 4: Failed to compute weighted stdev with mean.")
+  }
+
+  wvariance_fixed_m := data.Wvariance_with_fixed_mean(1, weights, 1, wmean)
+  if !util.FloatEqual(wvariance_fixed_m, 1147.6178392925797) {
+    t.Error("Test 4: Failed to compute variance with fixed mean.")
+  }
+
+  wsd_fixed_m := data.Wsd_with_fixed_mean(1, weights, 1, wmean)
+  if !util.FloatEqual(wsd_fixed_m, math.Sqrt(wvariance_fixed_m)) {
+    t.Error("Test 4: Failed to compute stddev with fixed mean.")
+  }
+
+  wtss := data.Wtss(1, weights, 1)
+  if !util.FloatEqual(wtss, 5852.850980392157) {
+    t.Error("Test 4: Failed to compute weighted sum of squares.")
+  }
+
+  wtss_m := data.Wtss_m(1, weights, 1, wmean)
+  if !util.FloatEqual(wtss_m, wtss) {
+    t.Error("Test 4: Failed to compute weighted sum of squares with mean.")
+  }
+
+  wabsdev := data.Wabsdev(1, weights, 1)
+  if !util.FloatEqual(wabsdev, 31.46097654748174) {
+    t.Error("Test 4: Failed to compute weighted absolute deviation.")
+  }
+
+  wabsdev_m := data.Wabsdev_m(1, weights, 1, wmean)
+  if !util.FloatEqual(wabsdev_m, wabsdev) {
+    t.Error("Test 4: Failed to compute weighted absolute deviation with mean.")
+  }
+
+  wskew := data.Wskew(1, weights, 1)
+  if !util.FloatEqual(wskew, -0.28679295109648656) {
+    t.Error("Test 4: Failed to compute weighted skew.")
+  }
+
+  wskew_m_sd := data.Wskew_m_sd(1, weights, 1, wmean, wsd)
+  if !util.FloatEqual(wskew_m_sd, wskew) {
+    t.Error("Test 4: Failed to compute weighted skew with mean and stddev.")
+  }
+
+  wkurtosis := data.Wkurtosis(1, weights, 1)
+  if !util.FloatEqual(wkurtosis, -1.7414231965732037) {
+    t.Error("Test 4: Failed to compute weighted kurtosis.")
+  }
+
+  wkurtosis_m_sd := data.Wkurtosis_m_sd(1, weights, 1, wmean, wsd)
+  if !util.FloatEqual(wkurtosis_m_sd, wkurtosis) {
+    t.Error("Test 4: Failed to compute weighted kurtosis with mean and stddev.")
+  }
+}
