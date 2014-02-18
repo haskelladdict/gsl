@@ -12,6 +12,9 @@ package stats
 // #cgo pkg-config: gsl
 // #include <gsl/gsl_statistics.h>
 import "C"
+import (
+  "unsafe"
+)
 
 // type definitions
 type FloatSlice []float64
@@ -332,3 +335,58 @@ func (d FloatSlice) Wkurtosis_m_sd(stride int, weights FloatSlice,
     C.size_t(len(d)), C.double(mean), C.double(sd))
   return float64(wkurtosis_m_sd)
 }
+
+// Max returns the maximum value in dataset d with stride stride.
+func (d FloatSlice) Max(stride int) float64 {
+  max := C.gsl_stats_max((*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)))
+  return float64(max)
+}
+
+// Min returns the minumum value in dataset d with stride stride.
+func (d FloatSlice) Min(stride int) float64 {
+  min := C.gsl_stats_max((*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)))
+  return float64(min)
+}
+
+// Minmax returns the minumum and maximum values in dataset d in a
+// single pass
+func (d FloatSlice) Minmax(stride int) (float64, float64) {
+  var min, max float64
+  C.gsl_stats_minmax((*C.double)(&min), (*C.double)(&max), (*C.double)(&d[0]),
+    C.size_t(stride), C.size_t(len(d)))
+  return float64(min), float64(max)
+}
+
+// Maxindex computes the index of the maximum value in dataset d with stride 
+// stride. The maximum value is defined as the value of the element x_i
+// which satisfies x_i ≥ x_j for all j. When there are several equal maximum 
+// elements then the first one is chosen.
+func (d FloatSlice) MaxIndex(stride int) int {
+  maxindex := C.gsl_stats_max_index((*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)))
+  return int(maxindex)
+}
+
+// Minindex computes the index of the minumum value in dataset d with stride 
+// stride. The minimum value is defined as the value of the element x_i
+// which satisfies x_i < x_j for all j. When there are several equal minimum
+// elements then the first one is chosen.
+func (d FloatSlice) MinIndex(stride int) int {
+  minindex := C.gsl_stats_min_index((*C.double)(&d[0]), C.size_t(stride),
+    C.size_t(len(d)))
+  return int(minindex)
+}
+
+// Minmaxindex computes the index of the minumum and maximum values in 
+// dataset d with stride stride in a single pass.
+func (d FloatSlice) MinMaxIndex(stride int) (int, int) {
+  var minindex, maxindex uintptr
+  C.gsl_stats_minmax_index((*C.size_t)(unsafe.Pointer(minindex)),
+    (*C.size_t)(unsafe.Pointer(maxindex)), (*C.double)(&d[0]),
+    C.size_t(stride), C.size_t(len(d)))
+  return int(minindex), int(maxindex)
+}
+
+
