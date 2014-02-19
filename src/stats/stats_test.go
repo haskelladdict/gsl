@@ -258,3 +258,42 @@ func Test_stats_4(t *testing.T) {
     t.Error("Test 4: Failed to compute weighted kurtosis with mean and stddev.")
   }
 }
+
+// test set 5
+func Test_stats_5(t *testing.T) {
+
+  data := FloatSlice{16.0, 99.0, 26.0, 85.0, 76.0, 50.0, 46.0, 11.0, 79.0,
+    97.0, 24.0, 20.0, 100.0, 68.0, 22.0, 15.0, 5.0, 89.0, 45.0, 2.0}
+
+  max := data.Max(1)
+  if !util.FloatEqual(max, 100.0) {
+    t.Error("Test 5: Failed to compute data max.")
+  }
+
+  min := data.Min(1)
+  if !util.FloatEqual(min, 2.0) {
+    t.Error("Test 5: Failed to compute data min.")
+  }
+
+  min1, max1 := data.MinMax(1)
+  if !util.FloatEqual(min, min1) || !util.FloatEqual(max, max1) {
+    t.Error("Test 5: Failed to compute data minmax.")
+  }
+
+  maxInd := data.MaxIndex(1)
+  if maxInd != 12 {
+    t.Error("Test 5: Failed to compute data max index.")
+  }
+
+  minInd := data.MinIndex(1)
+  if minInd != 19 {
+    t.Error("Test 5: Failed to compute min index.")
+  }
+
+
+  minInd1, maxInd1 := data.MinMaxIndex(1)
+  if (minInd != minInd1) || (maxInd != maxInd1) {
+    t.Error("Test 5: Failed to compute data minmax index.")
+  }
+}
+

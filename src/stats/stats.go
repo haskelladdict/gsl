@@ -345,14 +345,14 @@ func (d FloatSlice) Max(stride int) float64 {
 
 // Min returns the minumum value in dataset d with stride stride.
 func (d FloatSlice) Min(stride int) float64 {
-  min := C.gsl_stats_max((*C.double)(&d[0]), C.size_t(stride),
+  min := C.gsl_stats_min((*C.double)(&d[0]), C.size_t(stride),
     C.size_t(len(d)))
   return float64(min)
 }
 
 // Minmax returns the minumum and maximum values in dataset d in a
 // single pass
-func (d FloatSlice) Minmax(stride int) (float64, float64) {
+func (d FloatSlice) MinMax(stride int) (float64, float64) {
   var min, max float64
   C.gsl_stats_minmax((*C.double)(&min), (*C.double)(&max), (*C.double)(&d[0]),
     C.size_t(stride), C.size_t(len(d)))
@@ -382,9 +382,9 @@ func (d FloatSlice) MinIndex(stride int) int {
 // Minmaxindex computes the index of the minumum and maximum values in 
 // dataset d with stride stride in a single pass.
 func (d FloatSlice) MinMaxIndex(stride int) (int, int) {
-  var minindex, maxindex uintptr
-  C.gsl_stats_minmax_index((*C.size_t)(unsafe.Pointer(minindex)),
-    (*C.size_t)(unsafe.Pointer(maxindex)), (*C.double)(&d[0]),
+  var minindex, maxindex uint
+  C.gsl_stats_minmax_index((*C.size_t)(unsafe.Pointer(&minindex)),
+    (*C.size_t)(unsafe.Pointer(&maxindex)), (*C.double)(&d[0]),
     C.size_t(stride), C.size_t(len(d)))
   return int(minindex), int(maxindex)
 }
