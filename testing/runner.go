@@ -7,12 +7,20 @@ package main
 
 import (
   "fmt"
-  "github.com/haskelladdict/go-gsl/src/stats"
+  "github.com/haskelladdict/go-gsl/src/random"
+//  "github.com/haskelladdict/go-gsl/src/stats"
 )
 
 func main() {
-
+/*
   data := stats.FloatSlice{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}
   fmt.Println("mean is ", data.Mean(1), data.Variance(1),
     data.Variance_with_fixed_mean(1, 3.0), data.Absdev(1))
+*/
+  rng_type := random.Default()
+  rng_state := random.Alloc(rng_type)
+  fmt.Println(rng_state.Name())
+  for i:=0; i < 100; i++ {
+    fmt.Println(rng_state.Uniform())
+  }
 }
