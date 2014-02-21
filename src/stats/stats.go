@@ -359,9 +359,9 @@ func (d FloatSlice) MinMax(stride int) (float64, float64) {
   return float64(min), float64(max)
 }
 
-// Maxindex computes the index of the maximum value in dataset d with stride 
+// Maxindex computes the index of the maximum value in dataset d with stride
 // stride. The maximum value is defined as the value of the element x_i
-// which satisfies x_i ≥ x_j for all j. When there are several equal maximum 
+// which satisfies x_i ≥ x_j for all j. When there are several equal maximum
 // elements then the first one is chosen.
 func (d FloatSlice) MaxIndex(stride int) int {
   maxindex := C.gsl_stats_max_index((*C.double)(&d[0]), C.size_t(stride),
@@ -369,7 +369,7 @@ func (d FloatSlice) MaxIndex(stride int) int {
   return int(maxindex)
 }
 
-// Minindex computes the index of the minumum value in dataset d with stride 
+// Minindex computes the index of the minumum value in dataset d with stride
 // stride. The minimum value is defined as the value of the element x_i
 // which satisfies x_i < x_j for all j. When there are several equal minimum
 // elements then the first one is chosen.
@@ -379,7 +379,7 @@ func (d FloatSlice) MinIndex(stride int) int {
   return int(minindex)
 }
 
-// Minmaxindex computes the index of the minumum and maximum values in 
+// Minmaxindex computes the index of the minumum and maximum values in
 // dataset d with stride stride in a single pass.
 func (d FloatSlice) MinMaxIndex(stride int) (int, int) {
   var minindex, maxindex uint
@@ -389,4 +389,23 @@ func (d FloatSlice) MinMaxIndex(stride int) (int, int) {
   return int(minindex), int(maxindex)
 }
 
+// MedianFromSortedData computes the median value of sorted data d
+// with stride stride. The elements of the array must be in ascending
+// numerical order. There are no checks to see whether the data are sorted,
+// so the function gsl_sort should always be used firs
+func (d FloatSlice) MedianFromSortedData(stride int) float64 {
+  median := C.gsl_stats_median_from_sorted_data((*C.double)(&d[0]),
+    C.size_t(stride), C.size_t(len(d)))
+  return float64(median)
+}
 
+// QuantileFromSortedData computed a quantile value of sorted data with
+// stride stride. The elements of the array must be in ascending numerical
+// order. The quantile is determined by f, a fraction between 0 and 1.
+// For example, to compute the value of the 75th percentile f should have the
+// value 0.75
+func (d FloatSlice) QuantileFromSortedData(stride int, quant float64) float64 {
+  quantile := C.gsl_stats_quantile_from_sorted_data((*C.double)(&d[0]),
+    C.size_t(stride), C.size_t(len(d)), C.double(quant))
+  return float64(quantile)
+}

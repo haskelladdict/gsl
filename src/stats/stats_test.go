@@ -290,10 +290,29 @@ func Test_stats_5(t *testing.T) {
     t.Error("Test 5: Failed to compute min index.")
   }
 
-
   minInd1, maxInd1 := data.MinMaxIndex(1)
   if (minInd != minInd1) || (maxInd != maxInd1) {
     t.Error("Test 5: Failed to compute data minmax index.")
   }
 }
 
+// test set 6
+func Test_stats_6(t *testing.T) {
+
+  data := FloatSlice{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}
+
+  median := data.MedianFromSortedData(1)
+  if !util.FloatEqual(median, 5.5) {
+    t.Error("Test 6: Failed to compute median value.")
+  }
+
+  quantile1 := data.QuantileFromSortedData(1, 0.15)
+  if !util.FloatEqual(quantile1, 2.35) {
+    t.Error("Test 6: Failed to compute quantile1 value.")
+  }
+
+  quantile2 := data.QuantileFromSortedData(1, 0.92)
+  if !util.FloatEqual(quantile2, 9.28) {
+    t.Error("Test 6: Failed to compute quantile2 value.")
+  }
+}
