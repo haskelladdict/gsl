@@ -17,9 +17,11 @@ func main() {
   fmt.Println("mean is ", data.Mean(1), data.Variance(1),
     data.Variance_with_fixed_mean(1, 3.0), data.Absdev(1))
 */
-  //rng_type := random.Default()
-  rng_state := random.Alloc(random.Mt19937)
-  rng_state.Set(3241)
+  random.EnvSetup()
+  rng_type := random.Default()
+  rng_state := random.Alloc(rng_type)
+  fmt.Println("seed ", random.DefaultSeed())
+  //rng_state.Set(3241)
   for i:=0; i < 10; i++ {
     fmt.Println(rng_state.UniformInt(100))
   }

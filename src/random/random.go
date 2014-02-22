@@ -103,6 +103,11 @@ func Default() RngType {
   return C.gsl_rng_default
 }
 
+// DefaultSeed returns the default rng seed
+func DefaultSeed() uint64 {
+  return uint64(C.gsl_rng_default_seed)
+}
+
 // Alloc creates a new random number generator and returs
 // it as a RngState object.
 func Alloc(rngType RngType) RngState {
@@ -229,3 +234,11 @@ func (s RngState) Size() uint64 {
 //  return types
 //}
 
+
+// EnvSetup reads the environment variables GSL_RNG_TYPE and GSL_RNG_SEED 
+// and uses their values to set the corresponding library variables 
+// gsl_rng_default and gsl_rng_default_seed returned by Default() and 
+// DefaultSeed().
+func EnvSetup() RngType {
+  return RngType(C.gsl_rng_env_setup())
+}
