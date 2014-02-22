@@ -35,7 +35,64 @@ var (
   Ranlxs0 RngType = C.gsl_rng_ranlxs0
   Ranlxs1 RngType = C.gsl_rng_ranlxs1
   Ranlxs2 RngType = C.gsl_rng_ranlxs2
+  Ranlxd1 RngType = C.gsl_rng_ranlxd1
+  Ranlxd2 RngType = C.gsl_rng_ranlxd2
   Ranlux RngType = C.gsl_rng_ranlux
+  Ranlux389 RngType =  C.gsl_rng_ranlux389
+  Cmrg RngType = C.gsl_rng_cmrg
+  Mrg RngType = C.gsl_rng_mrg
+  Taus RngType = C.gsl_rng_taus
+  Taus2 RngType = C.gsl_rng_taus2
+  Gfsr4 RngType = C.gsl_rng_gfsr4
+
+  // Unix type rngs - these are not high quality so beware
+  Rand RngType = C.gsl_rng_rand
+  RandomBSD RngType = C.gsl_rng_random_bsd
+  RandomBSD_8 RngType = C.gsl_rng_random8_bsd
+  RandomBSD_32 RngType = C.gsl_rng_random32_bsd
+  RandomBSD_64 RngType = C.gsl_rng_random64_bsd
+  RandomBSD_28 RngType = C.gsl_rng_random128_bsd
+  RandomBSD_256 RngType = C.gsl_rng_random256_bsd
+
+  RandomLibc5 RngType = C.gsl_rng_random_libc5
+  RandomLibc5_8 RngType = C.gsl_rng_random8_libc5
+  RandomLibc5_32 RngType = C.gsl_rng_random32_libc5
+  RandomLibc5_64 RngType = C.gsl_rng_random64_libc5
+  RandomLibc5_128 RngType = C.gsl_rng_random128_libc5
+  RandomLibc5_256 RngType = C.gsl_rng_random256_libc5
+
+  RandomGlibc2 RngType = C.gsl_rng_random_glibc2
+  RandomGlibc2_8 RngType = C.gsl_rng_random8_glibc2
+  RandomGlibc2_32 RngType = C.gsl_rng_random32_glibc2
+  RandomGlibc2_64 RngType = C.gsl_rng_random64_glibc2
+  RandomGlibc2_128 RngType = C.gsl_rng_random128_glibc2
+  RandomGlibc2_256 RngType = C.gsl_rng_random256_glibc2
+
+  Rand48 RngType = C.gsl_rng_rand48
+
+  // compatibility rng types - typically low quality 
+  Ranf RngType = C.gsl_rng_ranf
+  Ranmar RngType = C.gsl_rng_ranmar
+  R250 RngType = C.gsl_rng_r250
+  Tt800 RngType = C.gsl_rng_tt800
+  Vax RngType = C.gsl_rng_vax
+  Transputer RngType = C.gsl_rng_transputer
+  Randu RngType = C.gsl_rng_randu
+  Minstd RngType = C.gsl_rng_minstd
+  Uni RngType = C.gsl_rng_uni
+  Uni32 RngType = C.gsl_rng_uni32
+  Slatec RngType = C.gsl_rng_slatec
+  Zuf RngType = C.gsl_rng_zuf
+  Knuthran2 RngType = C.gsl_rng_knuthran2
+  Knuthran2002 RngType = C.gsl_rng_knuthran2002
+  Knuthran RngType = C.gsl_rng_knuthran
+  Borosh13 RngType = C.gsl_rng_borosh13
+  Fishman18 RngType = C.gsl_rng_fishman18
+  Fishman20 RngType = C.gsl_rng_fishman20
+  Lecuyer21 RngType = C.gsl_rng_lecuyer21
+  Waterman14 RngType = C.gsl_rng_waterman14
+  Fishman2x RngType = C.gsl_rng_fishman2x
+  Coveyou RngType = C.gsl_rng_coveyou
 )
 
 
