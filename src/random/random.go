@@ -5,8 +5,10 @@
 // random wraps gsl random number generation routines
 package random
 
+// #cgo LDFLAGS: -lcwrap
 // #cgo pkg-config: gsl
 // #include <gsl/gsl_rng.h>
+// #include "../../c/cwrap.h"
 import "C"
 
 import (
@@ -228,11 +230,12 @@ func (s RngState) Size() uint64 {
 
 
 // TypesSetup returns a slice with all available generator types
-//func TypesSetup() []RngType {
-//  types := []RngType(C.gsl_rng_types_setup())
-//
-//  return types
-//}
+func TypesSetup() uint64 { //[]RngType {
+  //types := []RngType(C.gsl_rng_types_setup())
+
+  //return types
+  return uint64(C.rng_types_length())
+}
 
 
 // EnvSetup reads the environment variables GSL_RNG_TYPE and GSL_RNG_SEED 

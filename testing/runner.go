@@ -30,4 +30,5 @@ func main() {
   fmt.Println(rng_state)
   fmt.Println(rng_state.Max(), rng_state.Min())
   fmt.Println(rng_state.State(), rng_state.Size())
+  fmt.Println(random.TypesSetup())
 }
