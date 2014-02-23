@@ -156,8 +156,19 @@ func EnvSetup() RngType {
 // maximum values depend on the algorithm used, but all integers in the
 // range [min,max] are equally likely. The values of min and max can be
 // determined using the auxiliary functions Max and Min.
-func (s RngState) Get() float64 {
-  return float64(C.gsl_rng_get(s.state))
+func (s RngState) Get() uint64 {
+  return uint64(C.gsl_rng_get(s.state))
+}
+
+// GetSlice is a convenience function returning a slice of random
+// uint64 each between min and max of the selected random number
+// generator.
+func (s RngState) GetSlice(length int) []uint64 {
+  slice := make([]uint64, length)
+  for i := 0; i < length; i++ {
+    slice[i] = s.Get()
+  }
+  return slice
 }
 
 // Uniform returns a double precision floating point number

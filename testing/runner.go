@@ -40,14 +40,14 @@ func main() {
   fmt.Println(rng_state.State(), rng_state.Size())
   random.TypesSetup()
   /*
-    if rng_state.Fwrite("something") != nil {
-      panic("failed to write state")
-    }
+     if rng_state.Fwrite("something") != nil {
+       panic("failed to write state")
+     }
 
-    rng_state_new := random.Alloc(random.Ranlxs0)
-    rng_state_new.Fread("something")
+     rng_state_new := random.Alloc(random.Ranlxs0)
+     rng_state_new.Fread("something")
 
-    fmt.Println(rng_state.Uniform(), rng_state_new.Uniform())
+     fmt.Println(rng_state.Uniform(), rng_state_new.Uniform())
   */
 
   fmt.Println(rng_state.UniformIntSlice(10, 100))
