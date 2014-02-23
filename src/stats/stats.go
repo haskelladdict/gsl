@@ -12,9 +12,6 @@ package stats
 // #cgo pkg-config: gsl
 // #include <gsl/gsl_statistics.h>
 import "C"
-import (
-  "unsafe"
-)
 
 // type definitions
 type FloatSlice []float64
@@ -363,30 +360,30 @@ func (d FloatSlice) MinMax(stride int) (float64, float64) {
 // stride. The maximum value is defined as the value of the element x_i
 // which satisfies x_i ≥ x_j for all j. When there are several equal maximum
 // elements then the first one is chosen.
-func (d FloatSlice) MaxIndex(stride int) int {
+func (d FloatSlice) MaxIndex(stride int) uint64 {
   maxindex := C.gsl_stats_max_index((*C.double)(&d[0]), C.size_t(stride),
     C.size_t(len(d)))
-  return int(maxindex)
+  return uint64(maxindex)
 }
 
 // Minindex computes the index of the minumum value in dataset d with stride
 // stride. The minimum value is defined as the value of the element x_i
 // which satisfies x_i < x_j for all j. When there are several equal minimum
 // elements then the first one is chosen.
-func (d FloatSlice) MinIndex(stride int) int {
+func (d FloatSlice) MinIndex(stride int) uint64 {
   minindex := C.gsl_stats_min_index((*C.double)(&d[0]), C.size_t(stride),
     C.size_t(len(d)))
-  return int(minindex)
+  return uint64(minindex)
 }
 
 // Minmaxindex computes the index of the minumum and maximum values in
 // dataset d with stride stride in a single pass.
-func (d FloatSlice) MinMaxIndex(stride int) (int, int) {
-  var minindex, maxindex uint
-  C.gsl_stats_minmax_index((*C.size_t)(unsafe.Pointer(&minindex)),
-    (*C.size_t)(unsafe.Pointer(&maxindex)), (*C.double)(&d[0]),
+func (d FloatSlice) MinMaxIndex(stride int) (uint64, uint64) {
+  var minindex, maxindex uint64
+  C.gsl_stats_minmax_index((*C.size_t)(&minindex),
+    (*C.size_t)(&maxindex), (*C.double)(&d[0]),
     C.size_t(stride), C.size_t(len(d)))
-  return int(minindex), int(maxindex)
+  return minindex, maxindex
 }
 
 // MedianFromSortedData computes the median value of sorted data d
