@@ -5,10 +5,10 @@
 // random wraps gsl random number generation routines
 package random
 
-// #cgo LDFLAGS: -lcwrap
+// #cgo CFLAGS: -std=c99 -O2
 // #cgo pkg-config: gsl
 // #include <gsl/gsl_rng.h>
-// #include "../../c/cwrap.h"
+// #include "random_wrap.h"
 import "C"
 
 import (
