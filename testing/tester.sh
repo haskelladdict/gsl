@@ -7,9 +7,9 @@
 if [[ $1 != "" ]]; then
   packages=$1
 else
-  packages=$(find ../ -name "*test.go" | xargs dirname)
+  packages=$(find ../ -name "*test.go")
 fi
 
 for package in ${packages[*]}; do
-  go test ${package}
+  go test `dirname $package`
 done
