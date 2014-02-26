@@ -138,7 +138,7 @@ func Alloc(rngType RngType) RngState {
 // Note that the most generators only accept 32-bit seeds, with higher
 // values being reduced modulo 2^32 . For generators with smaller ranges
 // the maximum seed value will typically be lower.
-func (s RngState) Set(seed uint64) {
+func (s *RngState) Set(seed uint64) {
   C.gsl_rng_set(s.state, C.ulong(seed))
 }
 
@@ -156,14 +156,14 @@ func EnvSetup() RngType {
 // maximum values depend on the algorithm used, but all integers in the
 // range [min,max] are equally likely. The values of min and max can be
 // determined using the auxiliary functions Max and Min.
-func (s RngState) Get() uint64 {
+func (s *RngState) Get() uint64 {
   return uint64(C.gsl_rng_get(s.state))
 }
 
 // GetSlice is a convenience function returning a slice of random
 // uint64 each between min and max of the selected random number
 // generator.
-func (s RngState) GetSlice(length int) []uint64 {
+func (s *RngState) GetSlice(length int) []uint64 {
   slice := make([]uint64, length)
   for i := 0; i < length; i++ {
     slice[i] = s.Get()
@@ -174,13 +174,13 @@ func (s RngState) GetSlice(length int) []uint64 {
 // Uniform returns a double precision floating point number
 // uniformly distributed in the range [0,1). The range includes 0.0
 // but excludes 1.0.
-func (s RngState) Uniform() float64 {
+func (s *RngState) Uniform() float64 {
   return float64(C.gsl_rng_uniform(s.state))
 }
 
 // UnformSlice is a convenience function returning a slice of length N
 // of uniform random floats in [0,1).
-func (s RngState) UniformSlice(length int) []float64 {
+func (s *RngState) UniformSlice(length int) []float64 {
   slice := make([]float64, length)
   for i := 0; i < length; i++ {
     slice[i] = s.Uniform()
@@ -193,7 +193,7 @@ func (s RngState) UniformSlice(length int) []float64 {
 // 1.0. The number is obtained by sampling the generator with the algorithm
 // of Uniform until a non-zero value is obtained. You can use this function
 // if you need to avoid a singularity at 0.0.
-func (s RngState) UniformPos() float64 {
+func (s *RngState) UniformPos() float64 {
   return float64(C.gsl_rng_uniform_pos(s.state))
 }
 
@@ -203,20 +203,21 @@ func (s RngState) UniformPos() float64 {
 // a non-zero minimum value an offset is applied so that zero is returned
 // with the correct probability. Note that this function is designed for
 // sampling from ranges smaller than the range of the underlying generator.
-// The parameter n must be less than or equal to the range of the generator r.// If n is larger than the range of the generator then the function
+// The parameter n must be less than or equal to the range of the generator r.
+// If n is larger than the range of the generator then the function
 // calls the error handler with an error code of GSL_EINVAL and returns zero.
 // In particular, this function is not intended for generating the full range
 // of unsigned integer values [0, 2 32 − 1]. Instead choose a generator with
 // the maximal integer range and zero minimum value, such as gsl_rng_ranlxd1,
 // gsl_rng_mt19937 or gsl_rng_taus, and sample it directly using gsl_rng_get.
 // The range of each can be found with the help of auxiliary sections.
-func (s RngState) UniformInt(limit uint64) uint64 {
+func (s *RngState) UniformInt(limit uint64) uint64 {
   return uint64(C.gsl_rng_uniform_int(s.state, C.ulong(limit)))
 }
 
 // UnformIntSlice is a convenience function returning a slice of length N
 // of uniform random integers in [0, n - 1].
-func (s RngState) UniformIntSlice(limit uint64, length int) []uint64 {
+func (s *RngState) UniformIntSlice(limit uint64, length int) []uint64 {
   slice := make([]uint64, length)
   for i := 0; i < length; i++ {
     slice[i] = s.UniformInt(limit)
@@ -228,43 +229,43 @@ func (s RngState) UniformIntSlice(limit uint64, length int) []uint64 {
 
 // Name returns the name of the random number generator or
 // a rng type
-func (s RngState) Name() string {
+func (s *RngState) Name() string {
   return C.GoString(C.gsl_rng_name(s.state))
 }
 
-func (t RngType) Name() string {
+func (t *RngType) Name() string {
   return C.GoString(t.rng.name)
 }
 
 // String provides a printable string representation for
 // an RngState and type
-func (s RngState) String() string {
+func (s *RngState) String() string {
   return s.Name()
 }
 
-func (t RngType) String() string {
+func (t *RngType) String() string {
   return C.GoString(t.rng.name)
 }
 
 // Max returns the largest value that the rng underlying RngState
 // can handle
-func (s RngState) Max() uint64 {
+func (s *RngState) Max() uint64 {
   return uint64(C.gsl_rng_max(s.state))
 }
 
 // Min returns the largest value that the rng underlying RngState
 // can handle
-func (s RngState) Min() uint64 {
+func (s *RngState) Min() uint64 {
   return uint64(C.gsl_rng_min(s.state))
 }
 
 // State returns a pointer to the underlying rng state from gsl
-func (s RngState) State() StatePointer {
+func (s *RngState) State() StatePointer {
   return StatePointer(C.gsl_rng_state(s.state))
 }
 
 // Size returns the size of the rng state.
-func (s RngState) Size() uint64 {
+func (s *RngState) Size() uint64 {
   return uint64(C.gsl_rng_size(s.state))
 }
 
@@ -290,13 +291,13 @@ func TypesSetup() map[string]RngType {
 // must be of the same type.
 // NOTE: currently this ignores the return type of gsl_rng_memcpy since
 // I don't know what it does (the manual is quiet on that)
-func (s RngState) Memcpy(dest RngState) {
+func (s *RngState) Memcpy(dest RngState) {
   C.gsl_rng_memcpy(dest.state, s.state)
 }
 
 // Clone returns a newly created generator which is an exact copy
 // of the generator r.
-func (s RngState) Clone() RngState {
+func (s *RngState) Clone() RngState {
   return RngState{C.gsl_rng_clone(s.state)}
 }
 
@@ -304,7 +305,7 @@ func (s RngState) Clone() RngState {
 // to the given file in binary format. Data is written in the
 // native binary format and may not be portable between different
 // architectures. Returns an error if there was a problem writing.
-func (s RngState) Fwrite(s_filename string) error {
+func (s *RngState) Fwrite(s_filename string) error {
   filename := C.CString(s_filename)
   defer C.free(unsafe.Pointer(filename))
 
@@ -321,7 +322,7 @@ func (s RngState) Fwrite(s_filename string) error {
 // since type information is not saved. The data is assumed to have been
 // written in the native binary format on the same architecture. Returns
 // an error if reading fails.
-func (s RngState) Fread(s_filename string) (RngState, error) {
+func (s *RngState) Fread(s_filename string) (RngState, error) {
   filename := C.CString(s_filename)
   defer C.free(unsafe.Pointer(filename))
 
