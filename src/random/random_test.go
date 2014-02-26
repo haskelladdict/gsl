@@ -6,8 +6,9 @@
 package random
 
 import (
-  "github.com/haskelladdict/go-gsl/src/stats"
   "testing"
+
+  "github.com/haskelladdict/go-gsl/src/stats"
 )
 
 // test set 1

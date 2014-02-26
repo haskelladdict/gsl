@@ -9,9 +9,10 @@
 package stats
 
 import (
-  "github.com/haskelladdict/go-gsl/util"
   "math"
   "testing"
+
+  "github.com/haskelladdict/go-gsl/util"
 )
 
 // test set 1
@@ -21,7 +22,7 @@ func Test_stats_1(t *testing.T) {
 
   mean := data.Mean(1)
   if !util.FloatEqual(mean, 5.5) {
-    t.Error("Test 1: Failed to compute mean")
+    t.Error("Test 1: Failed to compute mean.")
   }
 
   sigma2 := data.Variance(1)
