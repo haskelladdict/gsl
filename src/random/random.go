@@ -322,7 +322,7 @@ func (s *RngState) Fwrite(s_filename string) error {
 // since type information is not saved. The data is assumed to have been
 // written in the native binary format on the same architecture. Returns
 // an error if reading fails.
-func (s *RngState) Fread(s_filename string) (RngState, error) {
+func (s *RngState) Fread(s_filename string) (*RngState, error) {
   filename := C.CString(s_filename)
   defer C.free(unsafe.Pointer(filename))
 
