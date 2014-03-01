@@ -13,3 +13,4 @@ status indicated in parentheses:
 
 * stats (complete)
 * random (complete)
+* quasirandom (complete)
