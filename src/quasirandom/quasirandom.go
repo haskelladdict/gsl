@@ -13,11 +13,10 @@ import (
   "unsafe"
 )
 
-
 // QrngState stores the quasi random number generator state
 type QrngState struct {
   state *C.gsl_qrng
-  dim uint
+  dim   uint
 }
 
 // QrngType stores the type of qrng method used
@@ -37,17 +36,17 @@ type StatePointer unsafe.Pointer
 // for more detailed info on each of these.
 var (
   Niederreiter_2 = QrngType{C.gsl_qrng_niederreiter_2}
-  Sobol = QrngType{C.gsl_qrng_sobol}
-  Halton = QrngType{C.gsl_qrng_halton}
-  ReverseHalton = QrngType{C.gsl_qrng_reversehalton}
+  Sobol          = QrngType{C.gsl_qrng_sobol}
+  Halton         = QrngType{C.gsl_qrng_halton}
+  ReverseHalton  = QrngType{C.gsl_qrng_reversehalton}
 )
 
 // RNG initialization
 
 // Alloc creates a new quasirandom number generator of the
-// requested type and dimension and returns it as a QrngState 
+// requested type and dimension and returns it as a QrngState
 // object.
-// XXX: using SetFinalizer to get rid of the generator doesn't work
+// XXX: using SetFinalizer to release the generator doesn't work
 // properly since the go runtime destroys the object prematurely.
 func Alloc(qrngType QrngType, dim uint) QrngState {
   state := QrngState{C.gsl_qrng_alloc(qrngType.qrng, C.uint(dim)), dim}
@@ -59,17 +58,15 @@ func Alloc(qrngType QrngType, dim uint) QrngState {
   return state
 }
 
-
-// Free releases all the memory associated with the generator 
+// Free releases all the memory associated with the generator
 // within the C part of gsl
 func (s *QrngState) Free() {
   C.gsl_qrng_free(s.state)
-  s.state = nil   // to make sure we don't use after freeing
+  s.state = nil // to make sure we don't use after freeing
 }
 
-
-// Init reinitializes the generator q to its starting point. Note 
-// that quasirandom sequences do not use a seed and always produce the 
+// Init reinitializes the generator q to its starting point. Note
+// that quasirandom sequences do not use a seed and always produce the
 // same set of values.
 func (s *QrngState) Init() {
   C.gsl_qrng_init(s.state)
@@ -78,10 +75,10 @@ func (s *QrngState) Init() {
 // RNG sampling functions
 
 // Get returns the next point from the sequence generator s. The
-// length of QrngPoint p matches the dimension of the underlying 
-// QrngState. Each element of QrngPoint p will lie in the range 
+// length of QrngPoint p matches the dimension of the underlying
+// QrngState. Each element of QrngPoint p will lie in the range
 // 0 < p_i < 1 for each p_i .
-// XXX: The gsl manual does not say what the return value of 
+// XXX: The gsl manual does not say what the return value of
 // gsl_qrng_get signifies so we ignore it for now.
 func (s *QrngState) Get() QrngPoint {
   point := make(QrngPoint, s.dim)
@@ -89,8 +86,7 @@ func (s *QrngState) Get() QrngPoint {
   return point
 }
 
-
-// GetSlice is a convenience function and returns a slice of length 
+// GetSlice is a convenience function and returns a slice of length
 // n of QrngPoints
 func (s *QrngState) GetSlice(n int) []QrngPoint {
   slice := make([]QrngPoint, n)
@@ -100,10 +96,9 @@ func (s *QrngState) GetSlice(n int) []QrngPoint {
   return slice
 }
 
-
 // RNG auxiliary functions
 
-// Name returns the name of the quasirandom number generator 
+// Name returns the name of the quasirandom number generator
 func (s *QrngState) Name() string {
   return C.GoString(C.gsl_qrng_name(s.state))
 }
@@ -126,8 +121,8 @@ func (s *QrngState) State() StatePointer {
 
 // Copying, cloning, writing and reading rng state
 
-// Memcpy copies the quasi random number generator src into the 
-// pre-existing generator dest, making dest into an exact copy of src. 
+// Memcpy copies the quasi random number generator src into the
+// pre-existing generator dest, making dest into an exact copy of src.
 // The two generators must be of the same type.
 // XXX: currently this ignores the return type of gsl_rng_memcpy since
 // I don't know what it does (the manual is quiet on that)

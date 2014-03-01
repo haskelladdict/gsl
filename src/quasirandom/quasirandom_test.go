@@ -28,7 +28,6 @@ func Test_random_1(t *testing.T) {
   test_helper(t, ReverseHalton)
 }
 
-
 // brief helper function
 func test_helper(t *testing.T, rng_type QrngType) {
 
@@ -37,7 +36,7 @@ func test_helper(t *testing.T, rng_type QrngType) {
   points1 := rng_state.GetSlice(numRands)
 
   if len(points1[0]) != 2 {
-    msg := fmt.Sprintf("%s: Incorrect length of generated QrngPoint. " +
+    msg := fmt.Sprintf("%s: Incorrect length of generated QrngPoint. "+
       "Expected 2 got %d", rng_state.Name(), len(points1[0]))
     t.Error(msg)
   }
@@ -61,6 +60,3 @@ func test_helper(t *testing.T, rng_type QrngType) {
   }
   rng_state.Free()
 }
-
-
-

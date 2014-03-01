@@ -13,7 +13,6 @@ import "C"
 
 import (
   "fmt"
-  "runtime"
   "unsafe"
 )
 
@@ -112,14 +111,23 @@ func DefaultSeed() uint64 {
 
 // Alloc creates a new random number generator and returs
 // it as a RngState object.
+// XXX: using SetFinalizer to release the generator doesn't work
+// properly since the go runtime destroys the object prematurely.
 func Alloc(rngType RngType) RngState {
   state := RngState{C.gsl_rng_alloc(rngType.rng)}
 
   // make sure we get rid of any memory associated with the
   // rng within gsl
-  runtime.SetFinalizer(&state,
-    func(rng *RngState) { C.gsl_rng_free(rng.state) })
+  //runtime.SetFinalizer(&state,
+  //  func(rng *RngState) { C.gsl_rng_free(rng.state) })
   return state
+}
+
+// Free releases all the memory associated with the generator
+// within the C part of gsl
+func (s *RngState) Free() {
+  C.gsl_rng_free(s.state)
+  s.state = nil // to make sure we don't use after freeing
 }
 
 // Set initializes (or ‘seeds’) the random number generator. If the

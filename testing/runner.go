@@ -12,18 +12,18 @@ import (
 
   "github.com/haskelladdict/go-gsl/src/random"
   //"github.com/haskelladdict/go-gsl/src/stats"
-  "github.com/haskelladdict/go-gsl/src/quasirandom"
+  //"github.com/haskelladdict/go-gsl/src/quasirandom"
 )
 
 // helper functions for timing
 func trace(s string) (string, time.Time) {
-    log.Println("START:", s)
-    return s, time.Now()
+  log.Println("START:", s)
+  return s, time.Now()
 }
 
 func un(s string, startTime time.Time) {
-    endTime := time.Now()
-    log.Println("  END:", s, "ElapsedTime in seconds:", endTime.Sub(startTime))
+  endTime := time.Now()
+  log.Println("  END:", s, "ElapsedTime in seconds:", endTime.Sub(startTime))
 }
 
 func time_rng(rngType random.RngType) {
@@ -33,14 +33,13 @@ func time_rng(rngType random.RngType) {
   rng_state.UniformSlice(100000000)
 }
 
-
 func main() {
 
   /*
-  data := stats.FloatSlice{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}
-  fmt.Println("mean is ", data.Mean(1), data.Variance(1),
-    data.Variance_with_fixed_mean(1, 3.0), data.Absdev(1))
-
+    data := stats.FloatSlice{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}
+    fmt.Println("mean is ", data.Mean(1), data.Variance(1),
+      data.Variance_with_fixed_mean(1, 3.0), data.Absdev(1))
+  */
   random.EnvSetup()
   rng_type := random.Default()
 
@@ -49,23 +48,24 @@ func main() {
       rng_type = v
     }
   }
-  */
 
-  /*
   fmt.Println(" the type is ", rng_type, rng_type.Name() == "mt19937")
   rng_state := random.Alloc(random.Ranlxs0)
   fmt.Println("seed ", random.DefaultSeed())
   //rng_state.Set(3241)
-  for i := 0; i < 10; i++ {
-    fmt.Println(rng_state.UniformInt(100))
-  }
+  //for i := 0; i < 100000; i++ {
+  //  fmt.Println(rng_state.UniformInt(100))
+  //}
 
-  fmt.Println(rng_state.Name())
-  fmt.Println(rng_state)
-  fmt.Println(rng_state.Max(), rng_state.Min())
-  fmt.Println(rng_state.State(), rng_state.Size())
-  random.TypesSetup()
-  */
+  foo := rng_state.UniformIntSlice(10, 100000)
+  fmt.Println(foo)
+
+  //fmt.Println(rng_state.Name())
+  //fmt.Println(rng_state)
+  //fmt.Println(rng_state.Max(), rng_state.Min())
+  //fmt.Println(rng_state.State(), rng_state.Size())
+  //random.TypesSetup()
+
   /*
      if rng_state.Fwrite("something") != nil {
        panic("failed to write state")
@@ -79,18 +79,17 @@ func main() {
   //fmt.Println(rng_state.UniformIntSlice(10, 100))
 
   /*time_rng(random.Taus)
-  time_rng(random.Ranlux)
-  time_rng(random.Ranlxs1)
-  time_rng(random.Ranlxd2)
-  time_rng(random.Mt19937)*/
+    time_rng(random.Ranlux)
+    time_rng(random.Ranlxs1)
+    time_rng(random.Ranlxd2)
+    time_rng(random.Mt19937)*/
 
-
-  rng_state := quasirandom.Alloc(quasirandom.Halton, 2)
-  for i := 0; i < 1024; i++ {
-    point := rng_state.Get()
-    fmt.Println(point[0], point[1])
-  }
-  rng_state.Free()
+  /*
+     rng_state := quasirandom.Alloc(quasirandom.Halton, 2)
+     for i := 0; i < 1024; i++ {
+       point := rng_state.Get()
+       fmt.Println(point[0], point[1])
+     }
+     rng_state.Free()
+  */
 }
-
-
