@@ -9,6 +9,7 @@ import (
   "testing"
 
   "github.com/haskelladdict/gsl/stats"
+  "github.com/haskelladdict/gsl/util"
 )
 
 // XXX this margin is used for comparing statistical properties
@@ -71,5 +72,35 @@ func Test_randist_1(t *testing.T) {
 
   if (ugaus_rat.Sd(1) - 1.0) > margin {
     t.Error("randist: Stdev of ugaussian_rat distribution is not 1.", ugaus_rat.Sd(1))
+  }
+}
+
+// test set 2
+// XXX: This a are silly tests that only check that the function work
+// but not that they work correctly. Not sure how to check correctness.
+func Test_randist_2(t *testing.T) {
+
+  // test gaussian tail distributions
+  rng_type := Ranlxd2
+  rng_state := Rng_alloc(rng_type)
+
+  // gaussian
+  tail := GaussianTailSlice(rng_state, 0, 1, numSamples)
+  if len(tail) != int(numSamples) {
+    t.Error("randist: error computing gaussian tail distribution")
+  }
+
+  // unit gaussian
+  utail := UgaussianTailSlice(rng_state, 0, numSamples)
+  if len(utail) != int(numSamples) {
+    t.Error("randist: error computing unit gaussian tail distribution")
+  }
+
+  // pdfs
+  g_pdf := GaussianTailPdf(1, 0, 1)
+  ug_pdf := UgaussianTailPdf(1, 0)
+  if !util.FloatEqual(g_pdf, ug_pdf) {
+    t.Error("randist: missmatch in computing gaussian tail pdfs",
+      g_pdf, ug_pdf)
   }
 }

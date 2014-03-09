@@ -1,11 +1,11 @@
-// Copyright 2015 Markus Dittrich. All rights reserved.
+// Copyright 2014 Markus Dittrich. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 //
 // randist wraps gsl random number distributions
 //
 // XXX: All of the slice functions could be made more efficient
-// by calling the underlying GSL routines directly rathen than
+// by calling the underlying GSL routines directly rather than
 // calling the go wrappers.
 package random
 
@@ -71,7 +71,7 @@ func GaussianRatioMethodSlice(rng RngState, sigma float64, n uint64) []float64 {
   return data
 }
 
-// Custom functions for unit Gaussion distribution
+// Custom functions for unit Gaussian distribution
 
 // UGaussian returns a unit Gaussian random variate with mean zero.
 func Ugaussian(rng RngState) float64 {
@@ -109,4 +109,54 @@ func UgaussianRatioMethodSlice(rng RngState, n uint64) []float64 {
 // unit Gaussian distribution.
 func UgaussianPdf(x float64) float64 {
   return float64(C.gsl_ran_ugaussian_pdf(C.double(x)))
+}
+
+// GaussianTail provides random variates from the upper tail of a Gaussian
+// distribution with standard deviation sigma. The values returned are
+// larger than the lower limit a, which must be positive. The method is
+// based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann. Math.
+// Stat. 32, 894­899 (1961)), with this aspect explained in Knuth, v2,
+// 3rd ed, p139,586 (exercise 11).
+func GaussianTail(rng RngState, a, sigma float64) float64 {
+  return float64(C.gsl_ran_gaussian_tail(rng.state, C.double(a), C.double(sigma)))
+}
+
+// GaussianTailSlice returns a slice of length n from a Gaussian tail
+// distribution.
+func GaussianTailSlice(rng RngState, a, sigma float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = GaussianTail(rng, a, sigma)
+  }
+  return data
+}
+
+// GaussianTailPdf computes the probability density p(x) at x for a
+// Gaussian tail distribution with standard deviation sigma and lower
+// limit a.
+func GaussianTailPdf(x, a, sigma float64) float64 {
+  return float64(C.gsl_ran_gaussian_tail_pdf(C.double(x), C.double(a),
+    C.double(sigma)))
+}
+
+// UgaussianTail provides random variates from a unit Gaussian tail
+// distribution
+func UgaussianTail(rng RngState, a float64) float64 {
+  return float64(C.gsl_ran_ugaussian_tail(rng.state, C.double(a)))
+}
+
+// UgaussianTailSlice returns a slice of length n from a unit Gaussian tail
+// distribution.
+func UgaussianTailSlice(rng RngState, a float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = UgaussianTail(rng, a)
+  }
+  return data
+}
+
+// UgaussianTailPdf computes the probability density p(x) at x for a
+// unit Gaussian tail distribution with lower limit a.
+func UgaussianTailPdf(x, a float64) float64 {
+  return float64(C.gsl_ran_ugaussian_tail_pdf(C.double(x), C.double(a)))
 }

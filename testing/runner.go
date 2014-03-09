@@ -34,18 +34,19 @@ func time_rng(rngType random.RngType) {
 
 func main() {
 
-  fmt.Println(random.GaussianP(0, 1))
+  rng_type := random.Ranlxd2
+  rng_state := random.Rng_alloc(rng_type)
+
+  tail := random.GaussianTailSlice(rng_state, 1, 1, 100)
+  fmt.Println(tail)
 
   /*
-    rng_type := random.Ranlxd2
-    rng_state := random.Rng_alloc(rng_type)
-
-    gaus := stats.FloatSlice(random.GaussianRatioMethodSlice(rng_state, 1, 10000))
-    fmt.Println(gaus.Mean(1))
-    fmt.Println(gaus.Sd(1))
-    for _, i := range gaus {
-      fmt.Println(i)
-    }
+     gaus := stats.FloatSlice(random.GaussianRatioMethodSlice(rng_state, 1, 10000))
+     fmt.Println(gaus.Mean(1))
+     fmt.Println(gaus.Sd(1))
+     for _, i := range gaus {
+       fmt.Println(i)
+     }
   */
 
   /*
