@@ -3,17 +3,17 @@
 // license that can be found in the LICENSE file.
 //
 // random wraps gsl random number generation routines
-package quasirandom
+package random
 
 import (
   "fmt"
   "testing"
 
-  "github.com/haskelladdict/go-gsl/src/stats"
+  "github.com/haskelladdict/gsl/stats"
 )
 
 // test set 1
-func Test_random_1(t *testing.T) {
+func Test_qrandom_1(t *testing.T) {
 
   // test sobol
   test_helper(t, Sobol)
@@ -32,7 +32,7 @@ func Test_random_1(t *testing.T) {
 func test_helper(t *testing.T, rng_type QrngType) {
 
   numRands := 1000
-  rng_state := Alloc(rng_type, 2)
+  rng_state := Qrng_alloc(rng_type, 2)
   points1 := rng_state.GetSlice(numRands)
 
   if len(points1[0]) != 2 {

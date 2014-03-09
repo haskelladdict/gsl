@@ -3,15 +3,12 @@
 // license that can be found in the LICENSE file.
 //
 // random wraps gsl quasirandom number generation routines
-package quasirandom
+package random
 
 // #cgo pkg-config: gsl
 // #include <gsl/gsl_qrng.h>
 import "C"
 
-import (
-  "unsafe"
-)
 
 // QrngState stores the quasi random number generator state
 type QrngState struct {
@@ -28,10 +25,6 @@ type QrngType struct {
 // by the Qrng
 type QrngPoint []float64
 
-// StatePointer encapsulates a raw pointer to the underlying
-// qrng state within gsl
-type StatePointer unsafe.Pointer
-
 // list of available quasi random number generators. See gsl documentation
 // for more detailed info on each of these.
 var (
@@ -43,12 +36,12 @@ var (
 
 // RNG initialization
 
-// Alloc creates a new quasirandom number generator of the
+// Qrng_Alloc creates a new quasirandom number generator of the
 // requested type and dimension and returns it as a QrngState
 // object.
 // XXX: using SetFinalizer to release the generator doesn't work
 // properly since the go runtime destroys the object prematurely.
-func Alloc(qrngType QrngType, dim uint) QrngState {
+func Qrng_alloc(qrngType QrngType, dim uint) QrngState {
   state := QrngState{C.gsl_qrng_alloc(qrngType.qrng, C.uint(dim)), dim}
 
   // make sure we get rid of any memory associated with the

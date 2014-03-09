@@ -10,7 +10,7 @@ import (
   "log"
   "time"
 
-  "github.com/haskelladdict/go-gsl/src/random"
+  "github.com/haskelladdict/gsl/random"
   //"github.com/haskelladdict/go-gsl/src/stats"
   //"github.com/haskelladdict/go-gsl/src/quasirandom"
 )
@@ -29,7 +29,7 @@ func un(s string, startTime time.Time) {
 func time_rng(rngType random.RngType) {
   defer un(trace("TIMING " + rngType.Name()))
 
-  rng_state := random.Alloc(rngType)
+  rng_state := random.Rng_alloc(rngType)
   rng_state.UniformSlice(100000000)
 }
 
@@ -50,7 +50,7 @@ func main() {
   }
 
   fmt.Println(" the type is ", rng_type, rng_type.Name() == "mt19937")
-  rng_state := random.Alloc(random.Ranlxs0)
+  rng_state := random.Rng_alloc(random.Ranlxs0)
   fmt.Println("seed ", random.DefaultSeed())
   //rng_state.Set(3241)
   //for i := 0; i < 100000; i++ {
@@ -84,12 +84,10 @@ func main() {
     time_rng(random.Ranlxd2)
     time_rng(random.Mt19937)*/
 
-  /*
-     rng_state := quasirandom.Alloc(quasirandom.Halton, 2)
-     for i := 0; i < 1024; i++ {
-       point := rng_state.Get()
+   rng_state_q := random.Qrng_alloc(random.Halton, 2)
+   for i := 0; i < 1024; i++ {
+       point := rng_state_q.Get()
        fmt.Println(point[0], point[1])
      }
      rng_state.Free()
-  */
 }

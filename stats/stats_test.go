@@ -12,7 +12,7 @@ import (
   "math"
   "testing"
 
-  "github.com/haskelladdict/go-gsl/util"
+  "github.com/haskelladdict/gsl/util"
 )
 
 // test set 1

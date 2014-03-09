@@ -113,7 +113,7 @@ func DefaultSeed() uint64 {
 // it as a RngState object.
 // XXX: using SetFinalizer to release the generator doesn't work
 // properly since the go runtime destroys the object prematurely.
-func Alloc(rngType RngType) RngState {
+func Rng_alloc(rngType RngType) RngState {
   state := RngState{C.gsl_rng_alloc(rngType.rng)}
 
   // make sure we get rid of any memory associated with the

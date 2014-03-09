@@ -8,7 +8,7 @@ package random
 import (
   "testing"
 
-  "github.com/haskelladdict/go-gsl/src/stats"
+  "github.com/haskelladdict/gsl/stats"
 )
 
 // test set 1
@@ -25,7 +25,7 @@ func Test_random_1(t *testing.T) {
   if rng_type.Name() != "ranlxd2" {
     t.Error("Test 1: Failed to select ranlxd2 rng type.")
   }
-  rng_state := Alloc(rng_type)
+  rng_state := Rng_alloc(rng_type)
 
   // test 2
   nums1 := rng_state.GetSlice(100)
@@ -66,7 +66,7 @@ func Test_random_1(t *testing.T) {
   }
 
   // test 6
-  rng_state_2 := Alloc(rng_type)
+  rng_state_2 := Rng_alloc(rng_type)
   if rng_state_2.Get() == rng_state.Get() {
     t.Error("Test 6: Hmmm, this is very unlikely to happen.")
   }
