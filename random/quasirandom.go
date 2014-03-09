@@ -9,7 +9,6 @@ package random
 // #include <gsl/gsl_qrng.h>
 import "C"
 
-
 // QrngState stores the quasi random number generator state
 type QrngState struct {
   state *C.gsl_qrng
