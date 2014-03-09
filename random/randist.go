@@ -13,6 +13,9 @@ package random
 // #include <gsl/gsl_randist.h>
 import "C"
 
+// pair encapsulates an array of two doubles
+type Pair [2]float64
+
 // Gaussian returns a Gaussian random variate, with mean zero and
 // standard deviation sigma.
 func Gaussian(rng RngState, sigma float64) float64 {
@@ -159,4 +162,36 @@ func UgaussianTailSlice(rng RngState, a float64, n uint64) []float64 {
 // unit Gaussian tail distribution with lower limit a.
 func UgaussianTailPdf(x, a float64) float64 {
   return float64(C.gsl_ran_ugaussian_tail_pdf(C.double(x), C.double(a)))
+}
+
+// BivariateGaussian generates a pair of correlated Gaussian variates,
+// with mean zero, correlation coefficient rho and standard deviations
+// sigma x and sigma y in the x and y directions. The correlation
+// coefficient rho should lie between 1 and -1.
+func BivariateGaussian(rng RngState, sigma_x, sigma_y, rho float64) (float64,
+  float64) {
+  var x, y float64
+  C.gsl_ran_bivariate_gaussian(rng.state, C.double(sigma_x),
+    C.double(sigma_y), C.double(rho), (*C.double)(&x), (*C.double)(&y))
+  return x, y
+}
+
+// BivariateGaussianSlice generates a slice of length n with pairs of
+// correlated Gaussian variates,
+func BivariateGaussianSlice(rng RngState, sigma_x, sigma_y, rho float64,
+  n uint64) []Pair {
+  data := make([]Pair, n)
+  for i := uint64(0); i < n; i++ {
+    x, y := BivariateGaussian(rng, sigma_x, sigma_y, rho)
+    data[i] = Pair{x, y}
+  }
+  return data
+}
+
+// BivariateGaussianPdf computes the probability density p(x,y) at (x,y)
+// for a bivariate Gaussian distribution with standard deviations sigma x,
+// sigma y and correlation coefficient rho.
+func BivariateGaussianPdf(x, y, sigma_x, sigma_y, rho float64) float64 {
+  return float64(C.gsl_ran_bivariate_gaussian_pdf(C.double(x), C.double(y),
+    C.double(sigma_x), C.double(sigma_y), C.double(rho)))
 }

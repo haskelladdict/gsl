@@ -104,3 +104,36 @@ func Test_randist_2(t *testing.T) {
       g_pdf, ug_pdf)
   }
 }
+
+// test set 3
+func Test_randist_3(t *testing.T) {
+
+  // test bivariate gaussian distributions
+  rng_type := Ranlxd2
+  rng_state := Rng_alloc(rng_type)
+
+  // bivariate gaussian
+  tail := BivariateGaussianSlice(rng_state, 1, 1, 1, numSamples)
+
+  first := stats.FloatSlice(make([]float64, numSamples))
+  second := stats.FloatSlice(make([]float64, numSamples))
+  for i, v := range tail {
+    first[i], second[i] = v[0], v[1]
+  }
+
+  if first.Mean(1) > margin {
+    t.Error("randist: Mean of 1st component of bivariate gaussian is not 0.")
+  }
+
+  if second.Mean(1) > margin {
+    t.Error("randist: Mean of 2nd component of bivariate gaussian is not 0.")
+  }
+
+  if (first.Sd(1) - 1) > margin {
+    t.Error("randist: Std of 1st component of bivariate gaussian is not 0.")
+  }
+
+  if (second.Sd(1) - 1) > margin {
+    t.Error("randist: Std of 2nd component of bivariate gaussian is not 0.")
+  }
+}
