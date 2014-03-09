@@ -171,9 +171,9 @@ func (s *RngState) Get() uint64 {
 // GetSlice is a convenience function returning a slice of random
 // uint64 each between min and max of the selected random number
 // generator.
-func (s *RngState) GetSlice(length int) []uint64 {
-  slice := make([]uint64, length)
-  for i := 0; i < length; i++ {
+func (s *RngState) GetSlice(n uint64) []uint64 {
+  slice := make([]uint64, n)
+  for i := uint64(0); i < n; i++ {
     slice[i] = s.Get()
   }
   return slice
@@ -188,9 +188,9 @@ func (s *RngState) Uniform() float64 {
 
 // UnformSlice is a convenience function returning a slice of length N
 // of uniform random floats in [0,1).
-func (s *RngState) UniformSlice(length int) []float64 {
-  slice := make([]float64, length)
-  for i := 0; i < length; i++ {
+func (s *RngState) UniformSlice(n uint64) []float64 {
+  slice := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
     slice[i] = s.Uniform()
   }
   return slice
@@ -225,9 +225,9 @@ func (s *RngState) UniformInt(limit uint64) uint64 {
 
 // UnformIntSlice is a convenience function returning a slice of length N
 // of uniform random integers in [0, n - 1].
-func (s *RngState) UniformIntSlice(limit uint64, length int) []uint64 {
-  slice := make([]uint64, length)
-  for i := 0; i < length; i++ {
+func (s *RngState) UniformIntSlice(limit uint64, n uint64) []uint64 {
+  slice := make([]uint64, n)
+  for i := uint64(0); i < n; i++ {
     slice[i] = s.UniformInt(limit)
   }
   return slice

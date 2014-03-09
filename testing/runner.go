@@ -11,8 +11,7 @@ import (
   "time"
 
   "github.com/haskelladdict/gsl/random"
-  //"github.com/haskelladdict/go-gsl/src/stats"
-  //"github.com/haskelladdict/go-gsl/src/quasirandom"
+  "github.com/haskelladdict/gsl/stats"
 )
 
 // helper functions for timing
@@ -35,11 +34,23 @@ func time_rng(rngType random.RngType) {
 
 func main() {
 
+  rng_type := random.Ranlxd2
+  rng_state := random.Rng_alloc(rng_type)
+
+  gaus := stats.FloatSlice(random.GaussianRatioMethodSlice(rng_state, 1, 10000))
+  fmt.Println(gaus.Mean(1))
+  fmt.Println(gaus.Sd(1))
+  for _, i := range gaus {
+    fmt.Println(i)
+  }
+
   /*
     data := stats.FloatSlice{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}
     fmt.Println("mean is ", data.Mean(1), data.Variance(1),
       data.Variance_with_fixed_mean(1, 3.0), data.Absdev(1))
   */
+
+/*
   random.EnvSetup()
   rng_type := random.Default()
 
@@ -49,6 +60,7 @@ func main() {
     }
   }
 
+
   fmt.Println(" the type is ", rng_type, rng_type.Name() == "mt19937")
   rng_state := random.Rng_alloc(random.Ranlxs0)
   fmt.Println("seed ", random.DefaultSeed())
@@ -57,6 +69,10 @@ func main() {
   //  fmt.Println(rng_state.UniformInt(100))
   //}
 
+
+  fmt.Println(random.GaussianSlice(rng_state, 4, 10))
+*/
+/*
   foo := rng_state.UniformIntSlice(10, 100000)
   fmt.Println(foo)
 
@@ -65,7 +81,7 @@ func main() {
   //fmt.Println(rng_state.Max(), rng_state.Min())
   //fmt.Println(rng_state.State(), rng_state.Size())
   //random.TypesSetup()
-
+*/
   /*
      if rng_state.Fwrite("something") != nil {
        panic("failed to write state")
@@ -84,10 +100,12 @@ func main() {
     time_rng(random.Ranlxd2)
     time_rng(random.Mt19937)*/
 
+  /*
    rng_state_q := random.Qrng_alloc(random.Halton, 2)
    for i := 0; i < 1024; i++ {
        point := rng_state_q.Get()
        fmt.Println(point[0], point[1])
      }
      rng_state.Free()
+  */
 }

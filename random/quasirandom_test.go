@@ -31,7 +31,7 @@ func Test_qrandom_1(t *testing.T) {
 // brief helper function
 func test_helper(t *testing.T, rng_type QrngType) {
 
-  numRands := 1000
+  numRands := uint64(1000)
   rng_state := Qrng_alloc(rng_type, 2)
   points1 := rng_state.GetSlice(numRands)
 

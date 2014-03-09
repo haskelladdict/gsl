@@ -81,9 +81,9 @@ func (s *QrngState) Get() QrngPoint {
 
 // GetSlice is a convenience function and returns a slice of length
 // n of QrngPoints
-func (s *QrngState) GetSlice(n int) []QrngPoint {
+func (s *QrngState) GetSlice(n uint64) []QrngPoint {
   slice := make([]QrngPoint, n)
-  for i := 0; i < n; i++ {
+  for i := uint64(0); i < n; i++ {
     slice[i] = s.Get()
   }
   return slice
