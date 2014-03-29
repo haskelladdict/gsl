@@ -64,24 +64,47 @@ func UgaussianQinv(Q float64) float64 {
 // ExponentialP returns the cumulative distribution function P(x) for
 // the lower tail of an exponential distribution.
 func ExponentialP(x, mu float64) float64 {
-  return float64(C.gsl_cdf_exponential_P(C.double(x), C.double(mu)));
+  return float64(C.gsl_cdf_exponential_P(C.double(x), C.double(mu)))
 }
 
 // ExponentialQ returns the cumulative distribution function Q(x) for
 // the upper tail of an exponential distribution.
 func ExponentialQ(x, mu float64) float64 {
-  return float64(C.gsl_cdf_exponential_Q(C.double(x), C.double(mu)));
+  return float64(C.gsl_cdf_exponential_Q(C.double(x), C.double(mu)))
 }
 
 // ExponentialPinv returns the inverse cumulative distribution function Pinv(x) for
 // the lower tail of an exponential distribution.
 func ExponentialPinv(P, mu float64) float64 {
-  return float64(C.gsl_cdf_exponential_Pinv(C.double(P), C.double(mu)));
+  return float64(C.gsl_cdf_exponential_Pinv(C.double(P), C.double(mu)))
 }
 
 // ExponentialQinv returns the cumulative distribution function Qinv(x) for
 // the upper tail of an exponential distribution.
 func ExponentialQinv(Q, mu float64) float64 {
-  return float64(C.gsl_cdf_exponential_Qinv(C.double(Q), C.double(mu)));
+  return float64(C.gsl_cdf_exponential_Qinv(C.double(Q), C.double(mu)))
 }
 
+// LaplaceP returns the cumulative distribution function P(x) for
+// the lower tail of a laplace distribution.
+func LaplaceP(x, a float64) float64 {
+  return float64(C.gsl_cdf_laplace_P(C.double(x), C.double(a)))
+}
+
+// LaplaceQ returns the cumulative distribution function Q(x) for
+// the upper tail of a laplace distribution.
+func LaplaceQ(x, a float64) float64 {
+  return float64(C.gsl_cdf_laplace_Q(C.double(x), C.double(a)))
+}
+
+// LaplacePinv returns the inverse cumulative distribution function Pinv(x) for
+// the lower tail of a laplace distribution.
+func LaplacePinv(P, a float64) float64 {
+  return float64(C.gsl_cdf_laplace_Pinv(C.double(P), C.double(a)))
+}
+
+// LaplaceQinv returns the cumulative distribution function Qinv(x) for
+// the upper tail of a laplace distribution.
+func LaplaceQinv(Q, a float64) float64 {
+  return float64(C.gsl_cdf_laplace_Qinv(C.double(Q), C.double(a)))
+}

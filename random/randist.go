@@ -196,9 +196,9 @@ func BivariateGaussianPdf(x, y, sigma_x, sigma_y, rho float64) float64 {
     C.double(sigma_x), C.double(sigma_y), C.double(rho)))
 }
 
-// Exponential returns a random variate from the exponential distribution with mean mu. 
+// Exponential returns a random variate from the exponential distribution with mean mu.
 func Exponential(rng RngState, mu float64) float64 {
-  return float64(C.gsl_ran_exponential(rng.state, C.double(mu)));
+  return float64(C.gsl_ran_exponential(rng.state, C.double(mu)))
 }
 
 // ExponentialSlice generates a slice of length n of exponentially distributed values
@@ -210,8 +210,28 @@ func ExponentialSlice(rng RngState, mu float64, n uint64) []float64 {
   return data
 }
 
-// ExponentialPdf computes the probability density p(x) at x for an exponential 
+// ExponentialPdf computes the probability density p(x) at x for an exponential
 // distribution with mean mu.
 func ExponentialPdf(x, mu float64) float64 {
-  return float64(C.gsl_ran_exponential_pdf(C.double(x), C.double(mu)));
+  return float64(C.gsl_ran_exponential_pdf(C.double(x), C.double(mu)))
+}
+
+// Laplace returns a random variate from the exponential distribution with width a.
+func Laplace(rng RngState, a float64) float64 {
+  return float64(C.gsl_ran_laplace(rng.state, C.double(a)))
+}
+
+// LaplaceSlice generates a slice of length n of laplace distributed values
+func LaplaceSlice(rng RngState, a float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = Laplace(rng, a)
+  }
+  return data
+}
+
+// LaplacePdf computes the probability density p(x) at x for a laplace
+// distribution with width a.
+func LaplacePdf(x, a float64) float64 {
+  return float64(C.gsl_ran_laplace_pdf(C.double(x), C.double(a)))
 }
