@@ -242,7 +242,7 @@ func Exppow(rng RngState, a, b float64) float64 {
   return float64(C.gsl_ran_exppow(rng.state, C.double(a), C.double(b)));
 }
 
-// ExppowSlice generates a slice of length n of exponetial power distributes values
+// ExppowSlice generates a slice of length n of exponential power distributes values
 func ExppowSlice(rng RngState, a, b float64, n uint64) []float64 {
   data := make([]float64, n)
   for i := uint64(0); i < n; i++ {
@@ -257,5 +257,26 @@ func ExppowPdf(x, a, b float64) float64 {
   return float64(C.gsl_ran_exppow_pdf(C.double(x), C.double(a), C.double(b)));
 }
 
+
+
+// Cauchy returns a random variate from the Cauchy distribution with scale parameter a. 
+func Cauchy(rng RngState, a float64) float64 {
+  return float64(C.gsl_ran_cauchy(rng.state, C.double(a)));
+}
+
+// CauchySlice generates a slice of length n of cauchy distributes values
+func CauchySlice(rng RngState, a float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = Cauchy(rng, a)
+  }
+  return data
+}
+
+// CauchyPdf computes the probability density p(x) at x for a cauchy
+// distribution with scale parameter a
+func CauchyPdf(x, a float64) float64 {
+  return float64(C.gsl_ran_cauchy_pdf(C.double(x), C.double(a)));
+}
 
 

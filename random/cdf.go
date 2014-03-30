@@ -109,8 +109,6 @@ func LaplaceQinv(Q, a float64) float64 {
   return float64(C.gsl_cdf_laplace_Qinv(C.double(Q), C.double(a)))
 }
 
-
-
 // ExppowP returns the cumulative distribution function P(x) for
 // the lower tail of a exponential power distribution.
 func ExppowP(x, a, b float64) float64 {
@@ -124,5 +122,29 @@ func ExppowQ(x, a, b float64) float64 {
 }
 
 
+
+// CauchyP returns the cumulative distribution function P(x) for
+// the lower tail of a cauchy distribution.
+func CauchyP(x, a float64) float64 {
+  return float64(C.gsl_cdf_cauchy_P(C.double(x), C.double(a)))
+}
+
+// CauchyQ returns the cumulative distribution function Q(x) for
+// the upper tail of a cauchy distribution.
+func CauchyQ(x, a float64) float64 {
+  return float64(C.gsl_cdf_cauchy_Q(C.double(x), C.double(a)))
+}
+
+// CauchyPinv returns the inverse cumulative distribution function Pinv(x) for
+// the lower tail of a cauchy distribution.
+func CauchyPinv(P, a float64) float64 {
+  return float64(C.gsl_cdf_cauchy_Pinv(C.double(P), C.double(a)))
+}
+
+// CauchyQinv returns the cumulative distribution function Qinv(x) for
+// the upper tail of a cauchy distribution.
+func CauchyQinv(Q, a float64) float64 {
+  return float64(C.gsl_cdf_cauchy_Qinv(C.double(Q), C.double(a)))
+}
 
 
