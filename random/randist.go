@@ -300,16 +300,13 @@ func RayleighPdf(x, sigma float64) float64 {
   return float64(C.gsl_ran_rayleigh_pdf(C.double(x), C.double(sigma)));
 }
 
-
-
-
 // RayleighTail returns a random variate from the tail of the Rayleigh distribution 
 // with scale parameter sigma and a lower limit of a.
 func RayleighTail(rng RngState, a, sigma float64) float64 {
   return float64(C.gsl_ran_rayleigh_tail(rng.state, C.double(a), C.double(sigma)));
 }
 
-// RayleighTail Slice generates a slice of length n of rayleigh tail distributed values
+// RayleighTailSlice generates a slice of length n of rayleigh tail distributed values
 func RayleighTailSlice(rng RngState, a, sigma float64, n uint64) []float64 {
   data := make([]float64, n)
   for i := uint64(0); i < n; i++ {
@@ -324,5 +321,27 @@ func RayleighTailPdf(x, a, sigma float64) float64 {
   return float64(C.gsl_ran_rayleigh_tail_pdf(C.double(x), C.double(a),
     C.double(sigma)));
 }
+
+// Landay returns a random variate from the Landau distribution.
+func Landau(rng RngState) float64 {
+  return float64(C.gsl_ran_landau(rng.state));
+}
+
+// LandauSlice generates a slice of length n of Landau distributed values
+func LandauSlice(rng RngState, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = Landau(rng)
+  }
+  return data
+}
+
+// LandayPdf computes the probability density p(x) at x for a Landau
+// distribution.
+func LandauPdf(x float64) float64 {
+  return float64(C.gsl_ran_landau_pdf(C.double(x)))
+}
+
+
 
 
