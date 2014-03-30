@@ -34,12 +34,20 @@ func time_rng(rngType random.RngType) {
 
 func main() {
 
-  rng_type := random.Ranlxd2
-  rng_state := random.Rng_alloc(rng_type)
+  //  rng_type := random.Ranlxd2
+  //  rng_state := random.Rng_alloc(rng_type)
 
-  data := random.GammaSlice(rng_state, 2.0, 1.0, 10000)
-  for _, v := range data {
-    fmt.Println(v)
+  /*
+    data := random.FlatSlice(rng_state, 1.0, 3.0, 10000)
+    for _, v := range data {
+      fmt.Println(v)
+    }
+  */
+
+  x := 0.0
+  for i := 0; i < 10000; i++ {
+    fmt.Println(x, random.FlatPdf(x, 1.0, 3.0))
+    x = x + 0.001
   }
   //  for _, x := range random.BivariateGaussianSlice(rng_state, 1, 1, -1.0, 10000) {
   //    fmt.Println(x[0],x[1])

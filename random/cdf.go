@@ -169,7 +169,6 @@ func RayleighQinv(Q, sigma float64) float64 {
   return float64(C.gsl_cdf_rayleigh_Qinv(C.double(Q), C.double(sigma)))
 }
 
-
 // GammaP returns the cumulative distribution function P(x) for
 // the lower tail of a gamma distribution.
 func GammaP(x, a, b float64) float64 {
@@ -194,4 +193,26 @@ func GammaQinv(Q, a, b float64) float64 {
   return float64(C.gsl_cdf_gamma_Qinv(C.double(Q), C.double(a), C.double(b)))
 }
 
+// FlatP returns the cumulative distribution function P(x) for
+// the lower tail of a flat distribution.
+func FlatP(x, a, b float64) float64 {
+  return float64(C.gsl_cdf_flat_P(C.double(x), C.double(a), C.double(b)))
+}
 
+// FlatQ returns the cumulative distribution function Q(x) for
+// the upper tail of a flat distribution.
+func FlatQ(x, a, b float64) float64 {
+  return float64(C.gsl_cdf_flat_Q(C.double(x), C.double(a), C.double(b)))
+}
+
+// FlatPinv returns the inverse cumulative distribution function Pinv(x) for
+// the lower tail of a flat distribution.
+func FlatPinv(P, a, b float64) float64 {
+  return float64(C.gsl_cdf_flat_Pinv(C.double(P), C.double(a), C.double(b)))
+}
+
+// FlatQinv returns the cumulative distribution function Qinv(x) for
+// the upper tail of a flat distribution.
+func FlatQinv(Q, a, b float64) float64 {
+  return float64(C.gsl_cdf_flat_Qinv(C.double(Q), C.double(a), C.double(b)))
+}

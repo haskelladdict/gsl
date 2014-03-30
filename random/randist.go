@@ -236,10 +236,10 @@ func LaplacePdf(x, a float64) float64 {
   return float64(C.gsl_ran_laplace_pdf(C.double(x), C.double(a)))
 }
 
-// Exppow returns a random variate from the exponential power distribution with scale 
+// Exppow returns a random variate from the exponential power distribution with scale
 // parameter a and exponent b.
 func Exppow(rng RngState, a, b float64) float64 {
-  return float64(C.gsl_ran_exppow(rng.state, C.double(a), C.double(b)));
+  return float64(C.gsl_ran_exppow(rng.state, C.double(a), C.double(b)))
 }
 
 // ExppowSlice generates a slice of length n of exponential power distributes values
@@ -254,14 +254,12 @@ func ExppowSlice(rng RngState, a, b float64, n uint64) []float64 {
 // ExppowPdf computes the probability density p(x) at x for a exponential power
 // distribution with scale parameter a and exponent b
 func ExppowPdf(x, a, b float64) float64 {
-  return float64(C.gsl_ran_exppow_pdf(C.double(x), C.double(a), C.double(b)));
+  return float64(C.gsl_ran_exppow_pdf(C.double(x), C.double(a), C.double(b)))
 }
 
-
-
-// Cauchy returns a random variate from the Cauchy distribution with scale parameter a. 
+// Cauchy returns a random variate from the Cauchy distribution with scale parameter a.
 func Cauchy(rng RngState, a float64) float64 {
-  return float64(C.gsl_ran_cauchy(rng.state, C.double(a)));
+  return float64(C.gsl_ran_cauchy(rng.state, C.double(a)))
 }
 
 // CauchySlice generates a slice of length n of cauchy distributes values
@@ -276,13 +274,13 @@ func CauchySlice(rng RngState, a float64, n uint64) []float64 {
 // CauchyPdf computes the probability density p(x) at x for a cauchy
 // distribution with scale parameter a
 func CauchyPdf(x, a float64) float64 {
-  return float64(C.gsl_ran_cauchy_pdf(C.double(x), C.double(a)));
+  return float64(C.gsl_ran_cauchy_pdf(C.double(x), C.double(a)))
 }
 
-// Rayleigh returns a random variate from the Rayleigh distribution with scale 
+// Rayleigh returns a random variate from the Rayleigh distribution with scale
 // parameter sigma.
 func Rayleigh(rng RngState, sigma float64) float64 {
-  return float64(C.gsl_ran_rayleigh(rng.state, C.double(sigma)));
+  return float64(C.gsl_ran_rayleigh(rng.state, C.double(sigma)))
 }
 
 // RayleighSlice generates a slice of length n of rayleigh distributed values
@@ -297,13 +295,13 @@ func RayleighSlice(rng RngState, sigma float64, n uint64) []float64 {
 // RayleighPdf computes the probability density p(x) at x for a rayleigh
 // distribution with scale parameter sigma
 func RayleighPdf(x, sigma float64) float64 {
-  return float64(C.gsl_ran_rayleigh_pdf(C.double(x), C.double(sigma)));
+  return float64(C.gsl_ran_rayleigh_pdf(C.double(x), C.double(sigma)))
 }
 
-// RayleighTail returns a random variate from the tail of the Rayleigh distribution 
+// RayleighTail returns a random variate from the tail of the Rayleigh distribution
 // with scale parameter sigma and a lower limit of a.
 func RayleighTail(rng RngState, a, sigma float64) float64 {
-  return float64(C.gsl_ran_rayleigh_tail(rng.state, C.double(a), C.double(sigma)));
+  return float64(C.gsl_ran_rayleigh_tail(rng.state, C.double(a), C.double(sigma)))
 }
 
 // RayleighTailSlice generates a slice of length n of rayleigh tail distributed values
@@ -319,12 +317,12 @@ func RayleighTailSlice(rng RngState, a, sigma float64, n uint64) []float64 {
 // tail distribution with scale parameter sigma and a lower limit of a
 func RayleighTailPdf(x, a, sigma float64) float64 {
   return float64(C.gsl_ran_rayleigh_tail_pdf(C.double(x), C.double(a),
-    C.double(sigma)));
+    C.double(sigma)))
 }
 
 // Landay returns a random variate from the Landau distribution.
 func Landau(rng RngState) float64 {
-  return float64(C.gsl_ran_landau(rng.state));
+  return float64(C.gsl_ran_landau(rng.state))
 }
 
 // LandauSlice generates a slice of length n of Landau distributed values
@@ -342,11 +340,11 @@ func LandauPdf(x float64) float64 {
   return float64(C.gsl_ran_landau_pdf(C.double(x)))
 }
 
-// Levy returns a random variate from the Levy symmetric stable distribution 
+// Levy returns a random variate from the Levy symmetric stable distribution
 // with scale c and exponent alpha.
 // XXX: The algorithm only works for 0 < alpha <= 2
 func Levy(rng RngState, c, alpha float64) float64 {
-  return float64(C.gsl_ran_levy(rng.state, C.double(c), C.double(alpha)));
+  return float64(C.gsl_ran_levy(rng.state, C.double(c), C.double(alpha)))
 }
 
 // LevySlice generates a slice of length n of Levy distributed values
@@ -358,13 +356,13 @@ func LevySlice(rng RngState, c, alpha float64, n uint64) []float64 {
   return data
 }
 
-// LevySkew returns a random variate from the Levy skew stable distribution with 
-// scale c, exponent alpha and skewness parameter beta. The skewness parameter must 
+// LevySkew returns a random variate from the Levy skew stable distribution with
+// scale c, exponent alpha and skewness parameter beta. The skewness parameter must
 // lie in the range [−1, 1].
 // XXX: The algorithm only works for 0 < alpha <= 2
 func LevySkew(rng RngState, c, alpha, beta float64) float64 {
   return float64(C.gsl_ran_levy_skew(rng.state, C.double(c), C.double(alpha),
-    C.double(beta)));
+    C.double(beta)))
 }
 
 // LevySkewSlice generates a slice of length n of Levy skew distributed values
@@ -377,16 +375,16 @@ func LevySkewSlice(rng RngState, c, alpha, beta float64, n uint64) []float64 {
 }
 
 // Gamma returns a random variate from the gamma distribution.
-// The gamma distribution with an integer parameter a is known as the Erlang 
-// distribution. The variates are computed using the Marsaglia-Tsang fast gamma method. 
+// The gamma distribution with an integer parameter a is known as the Erlang
+// distribution. The variates are computed using the Marsaglia-Tsang fast gamma method.
 func Gamma(rng RngState, a, b float64) float64 {
-  return float64(C.gsl_ran_gamma(rng.state, C.double(a), C.double(b)));
+  return float64(C.gsl_ran_gamma(rng.state, C.double(a), C.double(b)))
 }
 
 // GammaKnuth returns a random variate from the gamma distribution using the
 // algorithms from Knuth.
 func GammaKnuth(rng RngState, a, b float64) float64 {
-  return float64(C.gsl_ran_gamma_knuth(rng.state, C.double(a), C.double(b)));
+  return float64(C.gsl_ran_gamma_knuth(rng.state, C.double(a), C.double(b)))
 }
 
 // GammaSlice generates a slice of length n of gamma distributed values
@@ -400,7 +398,24 @@ func GammaSlice(rng RngState, a, b float64, n uint64) []float64 {
 
 // GammaPdf computes the probability density p(x) at x for a gamma distribution.
 func GammaPdf(x, a, b float64) float64 {
-  return float64(C.gsl_ran_gamma_pdf(C.double(x), C.double(a), C.double(b)));
+  return float64(C.gsl_ran_gamma_pdf(C.double(x), C.double(a), C.double(b)))
 }
 
+// Flat returns a random variate from the flat (uniform) distribution from a to b.
+func Flat(rng RngState, a, b float64) float64 {
+  return float64(C.gsl_ran_flat(rng.state, C.double(a), C.double(b)))
+}
 
+// FlatSlice generates a slice of length n of flat distributed values
+func FlatSlice(rng RngState, a, b float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = Flat(rng, a, b)
+  }
+  return data
+}
+
+// FlatPdf computes the probability density p(x) at x for a flat distribution.
+func FlatPdf(x, a, b float64) float64 {
+  return float64(C.gsl_ran_flat_pdf(C.double(x), C.double(a), C.double(b)))
+}
