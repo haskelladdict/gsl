@@ -279,15 +279,13 @@ func CauchyPdf(x, a float64) float64 {
   return float64(C.gsl_ran_cauchy_pdf(C.double(x), C.double(a)));
 }
 
-
-
 // Rayleigh returns a random variate from the Rayleigh distribution with scale 
 // parameter sigma.
 func Rayleigh(rng RngState, sigma float64) float64 {
   return float64(C.gsl_ran_rayleigh(rng.state, C.double(sigma)));
 }
 
-// RayleighSlice generates a slice of length n of rayleigh distributes values
+// RayleighSlice generates a slice of length n of rayleigh distributed values
 func RayleighSlice(rng RngState, sigma float64, n uint64) []float64 {
   data := make([]float64, n)
   for i := uint64(0); i < n; i++ {
@@ -300,6 +298,31 @@ func RayleighSlice(rng RngState, sigma float64, n uint64) []float64 {
 // distribution with scale parameter sigma
 func RayleighPdf(x, sigma float64) float64 {
   return float64(C.gsl_ran_rayleigh_pdf(C.double(x), C.double(sigma)));
+}
+
+
+
+
+// RayleighTail returns a random variate from the tail of the Rayleigh distribution 
+// with scale parameter sigma and a lower limit of a.
+func RayleighTail(rng RngState, a, sigma float64) float64 {
+  return float64(C.gsl_ran_rayleigh_tail(rng.state, C.double(a), C.double(sigma)));
+}
+
+// RayleighTail Slice generates a slice of length n of rayleigh tail distributed values
+func RayleighTailSlice(rng RngState, a, sigma float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = RayleighTail(rng, a, sigma)
+  }
+  return data
+}
+
+// RayleighTailPdf computes the probability density p(x) at x for a rayleigh
+// tail distribution with scale parameter sigma and a lower limit of a
+func RayleighTailPdf(x, a, sigma float64) float64 {
+  return float64(C.gsl_ran_rayleigh_tail_pdf(C.double(x), C.double(a),
+    C.double(sigma)));
 }
 
 
