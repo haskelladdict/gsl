@@ -37,7 +37,7 @@ func main() {
   rng_type := random.Ranlxd2
   rng_state := random.Rng_alloc(rng_type)
 
-  data := random.LandauSlice(rng_state, 10000)
+  data := random.LevySlice(rng_state, 1.0, 1.0, 10000)
   for _, v := range data {
     fmt.Println(v)
   }

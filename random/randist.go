@@ -342,6 +342,22 @@ func LandauPdf(x float64) float64 {
   return float64(C.gsl_ran_landau_pdf(C.double(x)))
 }
 
+// Levy returns a random variate from the Levy symmetric stable distribution 
+// with scale c and exponent alpha.
+// XXX: The algorithm only works for 0 < alpha <= 2
+func Levy(rng RngState, c, alpha float64) float64 {
+  return float64(C.gsl_ran_levy(rng.state, C.double(c), C.double(alpha)));
+}
+
+// LevySlice generates a slice of length n of Levy distributed values
+func LevySlice(rng RngState, c, alpha float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = Levy(rng, c, alpha)
+  }
+  return data
+}
+
 
 
 
