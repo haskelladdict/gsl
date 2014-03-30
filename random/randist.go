@@ -376,5 +376,31 @@ func LevySkewSlice(rng RngState, c, alpha, beta float64, n uint64) []float64 {
   return data
 }
 
+// Gamma returns a random variate from the gamma distribution.
+// The gamma distribution with an integer parameter a is known as the Erlang 
+// distribution. The variates are computed using the Marsaglia-Tsang fast gamma method. 
+func Gamma(rng RngState, a, b float64) float64 {
+  return float64(C.gsl_ran_gamma(rng.state, C.double(a), C.double(b)));
+}
+
+// GammaKnuth returns a random variate from the gamma distribution using the
+// algorithms from Knuth.
+func GammaKnuth(rng RngState, a, b float64) float64 {
+  return float64(C.gsl_ran_gamma_knuth(rng.state, C.double(a), C.double(b)));
+}
+
+// GammaSlice generates a slice of length n of gamma distributed values
+func GammaSlice(rng RngState, a, b float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = Gamma(rng, a, b)
+  }
+  return data
+}
+
+// GammaPdf computes the probability density p(x) at x for a gamma distribution.
+func GammaPdf(x, a, b float64) float64 {
+  return float64(C.gsl_ran_gamma_pdf(C.double(x), C.double(a), C.double(b)));
+}
 
 

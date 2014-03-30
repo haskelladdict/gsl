@@ -37,7 +37,7 @@ func main() {
   rng_type := random.Ranlxd2
   rng_state := random.Rng_alloc(rng_type)
 
-  data := random.LevySkewSlice(rng_state, 1.0, 1.0, 1.0, 10000)
+  data := random.GammaSlice(rng_state, 2.0, 1.0, 10000)
   for _, v := range data {
     fmt.Println(v)
   }

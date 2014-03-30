@@ -170,3 +170,28 @@ func RayleighQinv(Q, sigma float64) float64 {
 }
 
 
+// GammaP returns the cumulative distribution function P(x) for
+// the lower tail of a gamma distribution.
+func GammaP(x, a, b float64) float64 {
+  return float64(C.gsl_cdf_gamma_P(C.double(x), C.double(a), C.double(b)))
+}
+
+// GammaQ returns the cumulative distribution function Q(x) for
+// the upper tail of a gamma distribution.
+func GammaQ(x, a, b float64) float64 {
+  return float64(C.gsl_cdf_gamma_Q(C.double(x), C.double(a), C.double(b)))
+}
+
+// GammaPinv returns the inverse cumulative distribution function Pinv(x) for
+// the lower tail of a gamma distribution.
+func GammaPinv(P, a, b float64) float64 {
+  return float64(C.gsl_cdf_gamma_Pinv(C.double(P), C.double(a), C.double(b)))
+}
+
+// GammaQinv returns the cumulative distribution function Qinv(x) for
+// the upper tail of a gamma distribution.
+func GammaQinv(Q, a, b float64) float64 {
+  return float64(C.gsl_cdf_gamma_Qinv(C.double(Q), C.double(a), C.double(b)))
+}
+
+
