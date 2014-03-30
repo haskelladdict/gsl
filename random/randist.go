@@ -358,6 +358,23 @@ func LevySlice(rng RngState, c, alpha float64, n uint64) []float64 {
   return data
 }
 
+// LevySkew returns a random variate from the Levy skew stable distribution with 
+// scale c, exponent alpha and skewness parameter beta. The skewness parameter must 
+// lie in the range [−1, 1].
+// XXX: The algorithm only works for 0 < alpha <= 2
+func LevySkew(rng RngState, c, alpha, beta float64) float64 {
+  return float64(C.gsl_ran_levy_skew(rng.state, C.double(c), C.double(alpha),
+    C.double(beta)));
+}
+
+// LevySkewSlice generates a slice of length n of Levy skew distributed values
+func LevySkewSlice(rng RngState, c, alpha, beta float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = LevySkew(rng, c, alpha, beta)
+  }
+  return data
+}
 
 
 
