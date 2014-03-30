@@ -235,3 +235,27 @@ func LaplaceSlice(rng RngState, a float64, n uint64) []float64 {
 func LaplacePdf(x, a float64) float64 {
   return float64(C.gsl_ran_laplace_pdf(C.double(x), C.double(a)))
 }
+
+// Exppow returns a random variate from the exponential power distribution with scale 
+// parameter a and exponent b.
+func Exppow(rng RngState, a, b float64) float64 {
+  return float64(C.gsl_ran_exppow(rng.state, C.double(a), C.double(b)));
+}
+
+// ExppowSlice generates a slice of length n of exponetial power distributes values
+func ExppowSlice(rng RngState, a, b float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = Exppow(rng, a, b)
+  }
+  return data
+}
+
+// ExppowPdf computes the probability density p(x) at x for a exponential power
+// distribution with scale parameter a and exponent b
+func ExppowPdf(x, a, b float64) float64 {
+  return float64(C.gsl_ran_exppow_pdf(C.double(x), C.double(a), C.double(b)));
+}
+
+
+

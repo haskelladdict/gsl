@@ -108,3 +108,21 @@ func LaplacePinv(P, a float64) float64 {
 func LaplaceQinv(Q, a float64) float64 {
   return float64(C.gsl_cdf_laplace_Qinv(C.double(Q), C.double(a)))
 }
+
+
+
+// ExppowP returns the cumulative distribution function P(x) for
+// the lower tail of a exponential power distribution.
+func ExppowP(x, a, b float64) float64 {
+  return float64(C.gsl_cdf_exppow_P(C.double(x), C.double(a), C.double(b)))
+}
+
+// ExppowQ returns the cumulative distribution function Q(x) for
+// the upper tail of an exponential power distribution.
+func ExppowQ(x, a, b float64) float64 {
+  return float64(C.gsl_cdf_exppow_Q(C.double(x), C.double(a), C.double(b)))
+}
+
+
+
+
