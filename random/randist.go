@@ -280,3 +280,26 @@ func CauchyPdf(x, a float64) float64 {
 }
 
 
+
+// Rayleigh returns a random variate from the Rayleigh distribution with scale 
+// parameter sigma.
+func Rayleigh(rng RngState, sigma float64) float64 {
+  return float64(C.gsl_ran_rayleigh(rng.state, C.double(sigma)));
+}
+
+// RayleighSlice generates a slice of length n of rayleigh distributes values
+func RayleighSlice(rng RngState, sigma float64, n uint64) []float64 {
+  data := make([]float64, n)
+  for i := uint64(0); i < n; i++ {
+    data[i] = Rayleigh(rng, sigma)
+  }
+  return data
+}
+
+// RayleighPdf computes the probability density p(x) at x for a rayleigh
+// distribution with scale parameter sigma
+func RayleighPdf(x, sigma float64) float64 {
+  return float64(C.gsl_ran_rayleigh_pdf(C.double(x), C.double(sigma)));
+}
+
+

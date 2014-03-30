@@ -121,8 +121,6 @@ func ExppowQ(x, a, b float64) float64 {
   return float64(C.gsl_cdf_exppow_Q(C.double(x), C.double(a), C.double(b)))
 }
 
-
-
 // CauchyP returns the cumulative distribution function P(x) for
 // the lower tail of a cauchy distribution.
 func CauchyP(x, a float64) float64 {
@@ -145,6 +143,30 @@ func CauchyPinv(P, a float64) float64 {
 // the upper tail of a cauchy distribution.
 func CauchyQinv(Q, a float64) float64 {
   return float64(C.gsl_cdf_cauchy_Qinv(C.double(Q), C.double(a)))
+}
+
+// RayleighP returns the cumulative distribution function P(x) for
+// the lower tail of a rayleigh distribution.
+func RayleighP(x, sigma float64) float64 {
+  return float64(C.gsl_cdf_rayleigh_P(C.double(x), C.double(sigma)))
+}
+
+// RayleighQ returns the cumulative distribution function Q(x) for
+// the upper tail of a rayleigh distribution.
+func RayleighQ(x, sigma float64) float64 {
+  return float64(C.gsl_cdf_rayleigh_Q(C.double(x), C.double(sigma)))
+}
+
+// RayleighPinv returns the inverse cumulative distribution function Pinv(x) for
+// the lower tail of a rayleigh distribution.
+func RayleighPinv(P, sigma float64) float64 {
+  return float64(C.gsl_cdf_rayleigh_Pinv(C.double(P), C.double(sigma)))
+}
+
+// RayleighQinv returns the cumulative distribution function Qinv(x) for
+// the upper tail of a rayleigh distribution.
+func RayleighQinv(Q, sigma float64) float64 {
+  return float64(C.gsl_cdf_rayleigh_Qinv(C.double(Q), C.double(sigma)))
 }
 
 
